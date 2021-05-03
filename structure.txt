@@ -1,0 +1,43 @@
+CHART:
+    Setup
+        options
+        resources
+        operations
+        dates
+    Render
+        layers
+            header
+            panel
+            content
+        TIMELINE
+        CATEGORIES
+        RESOURCES
+        OPERATIONS
+    Make
+        timeline_controls
+        search
+        date_picker
+
+CATEGORY:
+    Prepare
+    Draw
+    Set_Events
+
+RESOURCE:
+    Prepare
+    Draw
+    Set_Events
+
+OPERATION:
+    Prepare
+    Draw
+    Set_Events
+
+TIMELINE:
+    Prepare
+    Draw
+
+POPUP:
+(on event)
+    Prepare
+    Draw
