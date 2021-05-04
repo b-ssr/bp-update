@@ -32,20 +32,20 @@
     border-radius: 7px;
 }
 
-.header-dates {
+.header-timeline {
     display: flex;
     background: gainsboro;
     border-radius: 7px;
 }
 
-.header-dates .upper {
+.header-timeline .upper {
     height: 50%;
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
 
-.header-dates .lower {
+.header-timeline .lower {
     height: 50%;
     display: flex;
     align-items: center;
