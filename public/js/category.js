@@ -13,17 +13,24 @@ export default class Category {
         this.chart = chart;
         this.type = type;
 
-        this.prepare();
-        this.draw();
+        this.set_defaults();
     }
 
 
-    prepare() {
-        this.make_container();
+    set_defaults() {
+        this.html;
+        this.resources = [];
     }
 
 
-    make_container() {
+    draw() {
+        this.draw_container();
+        this.draw_category();
+        this.draw_buttons();
+    }
+
+
+    draw_container() {
         this.container = Utils.create_html('div', {
             class: 'panel-box',
             parent: this.chart.content_layers.panel,
@@ -32,8 +39,8 @@ export default class Category {
     }
 
 
-    draw() {
-        const category =  Utils.create_html('div', {
+    draw_category() {
+        this.html =  Utils.create_html('div', {
             innerHTML: this.type,
             class: 'category',
             style:
@@ -42,10 +49,13 @@ export default class Category {
                 'top: ' + this.chart.options.header_height + 'px',
             parent: this.container
         });
+    }
 
+
+    draw_buttons() {
         const category_btns = Utils.create_html('div', {
             class: 'category-btns',
-            parent: category
+            parent: this.html
         });
 
         for (let button in BUTTONS) {
@@ -55,8 +65,6 @@ export default class Category {
                 'data-type': this.type
             });
         }
-
-        this.html = category;
     }
 
 
@@ -81,7 +89,7 @@ export default class Category {
                 }
             })
 
-            category.collapse();
+            category.toggle_collapse();
         });
     }
 
@@ -106,13 +114,13 @@ export default class Category {
     }
 
 
-    collapse() {
+    toggle_collapse() {
         // hide section with operations
         const elem = this.ops_section.parentNode;
         elem.style.display = elem.style.display === 'none' ? '' : 'none';
 
         for (let resource of this.resources) {
-            resource.hide();
+            resource.toggle_display();
         }
 
         this.chart.grid.update_svg_bg();

@@ -9,6 +9,9 @@ import { VIEW_MODE } from './constants.js';
 class Chart {
 
     constructor(resources) {
+        // TODO
+        this.ddd = resources;
+
         console.time('FFF')
         this.setup(resources);
         this.render();
@@ -19,8 +22,9 @@ class Chart {
     setup(resources) {
         this.setup_container();
         this.setup_options();
+        this.setup_categories(resources);
         this.setup_resources(resources);
-        this.setup_operations();
+        this.setup_operations(resources);
         this.setup_boundary_dates();
         this.setup_chart_dates();
         this.setup_extra();
@@ -54,54 +58,58 @@ class Chart {
     }
 
 
-    setup_resources(resources) {
-        this.data = {};
+    setup_categories(resources_data) {
+        this.categories = [];
 
-        this.data.resources = resources.map(resource => {
-            resource.operations.map(operation => {
-                operation.time_start = new Date(operation.time_start);
-                operation.time_end = new Date(operation.time_end);
-                return operation;
-            });
-            resource.is_hidden = false;
-            return resource;
-        });
+        const category_types = new Set(resources_data.map(r => { return r.type; }));
 
-        this.data.resource_types = Array.from(
-            new Set(this.data.resources.map(r => { return r.type; }))
-        );
-
-        for (let type of this.data.resource_types) {
-            this.data.resources.filter(r => r.type === type).map((r, i) => {
-                r.index = i;
-            })
+        for (let category_type of category_types) {
+            this.categories.push(new Category(this, category_type));
         }
     }
 
 
-    setup_operations() {
-        // TODO
-        // this.data.full_operations = [];
+    setup_resources(resources_data) {
+        this.resources = [];
 
-        // set full operations apart. prepare for rendering phase operations only
-        for (let resource of this.data.resources) {
-            // TODO
-            // let full_ops = resource.operations.filter(o => o.type === 'full');
-            // this.data.full_operations.push(...full_ops);
+        for (let category of this.categories) {
+            const res_filtered = resources_data.filter(r => r.type === category.type);
 
-            let phase_ops = resource.operations.filter(o => o.type !== 'full');
-            // sort operations and set order index for each one
-            phase_ops.sort((op1, op2) => op1.time_start - op2.time_start);
-            let id;
-            let index;
-            phase_ops.forEach((op) => {
-                if (!id || id !== op.id) {
-                    id = op.id;
-                    index = 0;
+            // resource index within category resources
+            let index = 0;
+            for (let res_data of res_filtered) {
+                const resource = new Resource(this, category, res_data);
+                resource.index = index++;
+
+                this.resources.push(resource);
+                category.resources.push(resource);
+            }
+        }
+    }
+
+
+    setup_operations(resources_data) {
+        this.operations = [];
+
+        for (let resource of this.resources) {
+            const op_filtered = resources_data.find(r => r.id === resource.id).operations;
+
+            for (let op_data of op_filtered) {
+                if (op_data.type === 'full'){
+                    continue;
                 }
-                op.order = index++;
-            });
-            resource.operations = phase_ops;
+                const operation = new Operation(this, resource, op_data);
+
+                this.operations.push(operation);
+                resource.operations.push(operation);
+            }
+
+            resource.operations.sort((o1, o2) => o1.time_start - o2.time_start);
+            // operation index within recource operations
+            let index = 0;
+            for (let operation of resource.operations) {
+                operation.index = index++;
+            }
         }
     }
 
@@ -109,7 +117,7 @@ class Chart {
     setup_boundary_dates() {
         this.chart_start = this.chart_end = null;
 
-        this.data.resources.filter(r => r.is_hidden === false).map(resource => {
+        this.resources.filter(r => r.is_hidden === false).map(resource => {
             resource.operations.map(operation => {
                 if (!this.chart_start || operation.time_start < this.chart_start) {
                     this.chart_start = operation.time_start;
@@ -148,10 +156,9 @@ class Chart {
         this.chart_start = this.chart_dates[0];
         this.chart_end = this.chart_dates[this.chart_dates.length - 1];
 
-        this.options.grid_width = this.chart_dates.length * this.options.column_width;
-        // time step -> how much time is within one pixel of grid width
-        this.options.time_step = this.chart_dates.length * Utils.get_view_step_ms(this.options.view_mode)
-            / this.options.grid_width;
+        // full time = end - start + padding
+        this.full_time = this.chart_end - this.chart_start
+            + Utils.get_view_step_ms(this.options.view_mode);
     }
 
 
@@ -167,8 +174,6 @@ class Chart {
         this.render_panel();
         this.render_grid();
         this.render_operations();
-
-        // this.update_svg_bg();
     }
 
 
@@ -227,22 +232,10 @@ class Chart {
 
 
     render_panel() {
-        this.categories = [];
-        this.resources = [];
-
-        for (let type of this.data.resource_types) {
-            const category = new Category(this, type);
-            this.categories.push(category);
-
-            const resources = this.data.resources.filter(r =>
-                r.type === type && r.is_hidden === false
-            );
-
-            category.resources = [];
-            for (let resource of resources) {
-                const res = new Resource(this, category, resource);
-                this.resources.push(res);
-                category.resources.push(res);
+        for (let category of this.categories) {
+            category.draw();
+            for (let resource of category.resources) {
+                resource.draw();
             }
         }
     }
@@ -250,18 +243,15 @@ class Chart {
 
     render_grid() {
         this.grid = new Grid(this);
+        this.grid.draw();
     }
 
 
     render_operations() {
-        this.operations = [];
-
         for (let resource of this.resources) {
-            resource.operations = [];
-            for (let operation of resource.resource_data.operations) {
-                const op = new Operation(this, resource, operation);
-                this.operations.push(op);
-                resource.operations.push(op);
+            for (let operation of resource.operations) {
+                operation.prepare();
+                operation.draw();
             }
         }
     }

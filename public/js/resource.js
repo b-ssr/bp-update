@@ -7,16 +7,16 @@ export default class Resource {
         this.category = category;
         this.resource_data = resource_data;
 
-        this.prepare();
-        this.draw();
+        this.set_defaults();
     }
 
 
-    prepare() {
+    set_defaults() {
         this.id = this.resource_data.id;
-        this.index = this.resource_data.index;
         this.type = this.resource_data.type;
 
+        this.index;
+        this.operations = [];
         this.is_hidden = false;
         this.is_selected = true;
     }
@@ -32,13 +32,13 @@ export default class Resource {
 
         Utils.create_html('input', {
             type: 'checkbox',
-            checked: this.resource_data.is_hidden,
+            checked: this.is_hidden,
             class: 'res-selector',
             parent: res
         });
 
         Utils.create_html('div', {
-            innerHTML: this.resource_data.id,
+            innerHTML: this.id,
             class: 'res-id',
             parent: res
         });
@@ -69,12 +69,8 @@ export default class Resource {
     }
 
 
-    hide() {
-        this.is_hidden = true;
+    toggle_display() {
         this.html.style.display = this.html.style.display === 'none' ? '' : 'none';
-
-        // TODO 
-        // this.category.recalc_res_indexes();
     }
 
 

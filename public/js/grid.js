@@ -5,16 +5,20 @@ export default class Grid {
     constructor(chart) {
         this.chart = chart;
 
-        this.prepare();
-        this.draw();
+        this.set_defaults();
     }
 
 
-    prepare() {
-        this.width = this.chart.options.grid_width;
+    set_defaults() {
+        this.svg_bg;
+        this.svg_sections = [];
+
         this.offset = this.chart.options.grid_offset;
         this.row_height = this.chart.options.row_height;
         this.column_width = this.chart.options.column_width;
+
+        this.width = this.chart.chart_dates.length * this.column_width;
+        this.chart.options.grid_width = this.width;
     }
 
 
@@ -23,7 +27,6 @@ export default class Grid {
         this.draw_rows();
         this.draw_columns();
 
-        this.svg_sections = [];
         for (let category of this.chart.categories) {
             this.draw_break();
             this.svg_sections.push(this.draw_section(category));
@@ -108,7 +111,7 @@ export default class Grid {
 
 
     draw_section(category) {
-        const cnt = this.chart.resources.filter(r => r.category.type === category.type).length;
+        const cnt = category.resources.length;
         const width = this.width + this.offset * 2;
         const height = this.row_height;
 
