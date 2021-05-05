@@ -71,6 +71,7 @@ export default class Category {
     bind() {
         this.bind_collapse();
         this.bind_select();
+        this.bind_display();
     }
 
 
@@ -110,6 +111,16 @@ export default class Category {
                     resource.toggle_select();
                 });
             }
+        });
+    }
+
+
+    bind_display() {
+        const category = this;
+        const button = this.html.querySelector('.display');
+
+        button.addEventListener('click', function() {
+            // TODO
         });
     }
 

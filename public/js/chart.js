@@ -34,7 +34,6 @@ class Chart {
     setup_container() {
         this.container = document.getElementById('chart');
         this.controls = document.getElementById('controls');
-        this.draw_button = document.getElementById('draw');
 
         this.container.style.display = 'block';
     }
@@ -170,6 +169,7 @@ class Chart {
     render() {
         this.clear();
         this.setup_layers();
+        this.render_controls();
         this.render_header();
         this.render_panel();
         this.render_grid();
@@ -226,6 +226,22 @@ class Chart {
     }
 
 
+    render_controls() {
+        // clear previous draw button event listener
+        const controls = this.controls.cloneNode(true);
+        this.controls.innerHTML = controls.innerHTML;
+
+        for (let mode in VIEW_MODE) {
+            Utils.create_html('button', {
+                innerHTML: VIEW_MODE[mode],
+                name: VIEW_MODE[mode],
+                class: 'view-button',
+                parent: this.controls
+            });
+        }
+    }
+
+
     render_header() {
         this.timeline = new Timeline(this);
     }
@@ -261,7 +277,6 @@ class Chart {
 
     bind() {
         this.bind_controls();
-
         for (let category of this.categories) {
             category.bind();
         }
@@ -274,20 +289,6 @@ class Chart {
 
 
     bind_controls() {
-        // clear previous draw_button event listener
-        const draw = this.draw_button.cloneNode(true);
-        this.controls.innerHTML = '';
-        this.controls.appendChild(draw);
-
-        for (let mode in VIEW_MODE) {
-            Utils.create_html('button', {
-                innerHTML: VIEW_MODE[mode],
-                name: VIEW_MODE[mode],
-                class: 'view-button',
-                parent: this.controls
-            });
-        }
-
         const chart = this;
         for (let button of this.controls.childNodes) {
             button.addEventListener('click', function() {
@@ -301,26 +302,27 @@ class Chart {
 
 
     on_controls_event(button) {
-        console.time('control event');
+        // console.time('control event');
         this.highlight_controls(button);
         this.setup_boundary_dates();
         this.setup_chart_dates();
         this.setup_extra();
         this.render();
-        this.setup_panel_events();
-        this.setup_bar_events();
-        console.timeEnd('control event');
+        this.bind();
+        // console.timeEnd('control event');
     }
+
 
     highlight_controls(button) {
-        if (button.id !== this.draw_button.id) {
+        const draw_button = this.controls.querySelector('#draw');
+        if (button.id !== draw_button.id) {
             for (let node of this.controls.childNodes) {
-                node.classList.remove('selected');
+                console.log(node.classList)
+                // node.classList.remove('selected');
             }
-            button.classList.add('selected');
+            // button.classList.add('selected');
         }
     }
-
 
 
     // TODO
