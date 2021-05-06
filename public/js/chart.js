@@ -10,9 +10,6 @@ import { VIEW_MODE } from './constants.js';
 class Chart {
 
     constructor(resources) {
-        // TODO
-        this.ddd = resources;
-
         console.time('FFF')
         this.setup(resources);
         this.render();
@@ -35,9 +32,6 @@ class Chart {
     setup_container() {
         this.container = document.getElementById('chart');
         this.container.style.display = 'block';
-
-        // show hidden resouces flag
-        this.show_hidden = false;
     }
 
 
@@ -50,6 +44,7 @@ class Chart {
             bar_corner_radius: 2,
             step: 24,
             view_mode: VIEW_MODE.HOUR,
+            show_hidden: false
         };
         this.options = default_options;
 
@@ -120,14 +115,16 @@ class Chart {
             let index = 0;
 
             for (let resource of category.resources) {
-                if (!resource.is_selected) {
-                    resource.is_hidden = true;
-                }
-
-                if (!resource.is_hidden) {
+                if (this.options.show_hidden) {
+                    resource.is_hidden = false;
                     resource.index = index++;
                 } else {
-                    resource.index = -1;
+                    resource.is_hidden = !resource.is_selected;
+                    if (!resource.is_hidden) {
+                        resource.index = index++;
+                    } else {
+                        resource.index = -1;
+                    }
                 }
             }
         }
@@ -137,7 +134,8 @@ class Chart {
     setup_boundary_dates() {
         this.chart_start = this.chart_end = null;
 
-        this.resources.filter(r => r.is_hidden === false).map(resource => {
+        const resources = this.filter_hidden_resources(this.resources);
+        resources.map(resource => {
             resource.operations.map(operation => {
                 if (!this.chart_start || operation.time_start < this.chart_start) {
                     this.chart_start = operation.time_start;
@@ -250,11 +248,7 @@ class Chart {
         for (let category of this.categories) {
             category.draw();
 
-            // const resources = category.resources;
-            // if (!this.show_hidden) {
-            //     resources = resources.filter(r => r.is_hidden === false);
-            // }
-            const resources = category.resources.filter(r => r.is_hidden === false);
+            const resources = this.filter_hidden_resources(category.resources);
             for (let resource of resources) {
                 resource.draw();
             }
@@ -270,11 +264,7 @@ class Chart {
 
 
     render_operations() {
-        // const resources = this.resources;
-        // if (!this.show_hidden) {
-        //     resources = resources.filter(r => r.is_hidden === false);
-        // }
-        const resources = this.resources.filter(r => r.is_hidden === false);
+        const resources = this.filter_hidden_resources(this.resources);
         for (let resource of resources) {
             for (let operation of resource.operations) {
                 operation.prepare();
@@ -289,11 +279,7 @@ class Chart {
             category.bind();
         }
 
-        // const resources = this.resources;
-        // if (!this.show_hidden) {
-        //     resources = resources.filter(r => r.is_hidden === false);
-        // }
-        const resources = this.resources.filter(r => r.is_hidden === false);
+        const resources = this.filter_hidden_resources(this.resources);
         for (let resource of resources) {
             resource.bind();
         }
@@ -306,32 +292,17 @@ class Chart {
     }
 
 
-    filter_resources() {
-
+    filter_hidden_resources(resources) {
+        let filtered_resources = resources;
+        if (!this.options.show_hidden) {
+            filtered_resources = resources.filter(r => r.is_hidden === false);
+        }
+        return filtered_resources;
     }
+
 
 
     // TODO
-    panel_display_events() {
-        const chart = this;
-        const buttons = this.container.querySelectorAll('.category-btns .display');
-
-        for (let button of buttons) {
-            const type = button.dataset.type;
-
-            button.addEventListener('click', function() {
-                if (chart.resources.some(r => { return r.is_hidden; })) {
-                }
-                chart.setup_boundary_dates();
-                chart.setup_chart_dates();
-                chart.setup_extra();
-                chart.render();
-                chart.setup_panel_events();
-            });
-        }
-    }
-
-
 
     setup_bar_events() {
         this.bar_select_events();

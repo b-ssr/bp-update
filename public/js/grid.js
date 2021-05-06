@@ -23,12 +23,8 @@ export default class Grid {
 
 
     prepare() {
-        // const resources = this.chart.resources;
-        // if (!this.chart.show_hidden) {
-        //     resources = resources.filter(r => r.is_hidden === false);
-        // }
-        this.resources_filtered = this.chart.resources
-            .filter(r => r.is_hidden === false);
+        this.filtered_resources = 
+            this.chart.filter_hidden_resources(this.chart.resources);
     }
 
 
@@ -49,7 +45,7 @@ export default class Grid {
             parent: this.chart.content_layers.grid
         });
 
-        const cnt = this.resources_filtered.length + this.chart.categories.length;
+        const cnt = this.filtered_resources.length + this.chart.categories.length;
 
         this.svg_bg = Utils.create_svg('svg', {
             width: this.width + this.offset * 2,
@@ -63,7 +59,7 @@ export default class Grid {
     draw_rows() {
         const rows_layer = Utils.create_svg('g', { parent: this.svg_bg });
 
-        const cnt = this.resources_filtered.length + this.chart.categories.length;
+        const cnt = this.filtered_resources.length + this.chart.categories.length;
         let y = 0;
         for (let i = 0; i < cnt; i++) {
             Utils.create_svg('rect', {
@@ -83,7 +79,7 @@ export default class Grid {
     draw_columns() {
         const columns_layer = Utils.create_svg('g', { parent: this.svg_bg });
 
-        const cnt = this.resources_filtered.length + this.chart.categories.length;
+        const cnt = this.filtered_resources.length + this.chart.categories.length;
         let x1 = 0;
         let y1 = 0;
         let x2 = 0;
@@ -121,7 +117,7 @@ export default class Grid {
 
 
     draw_section(category) {
-        const cnt = this.resources_filtered
+        const cnt = this.filtered_resources
             .filter(r => r.category === category).length;
 
         const width = this.width + this.offset * 2;

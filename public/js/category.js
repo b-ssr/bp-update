@@ -59,11 +59,21 @@ export default class Category {
         });
 
         for (let button in BUTTONS) {
-            Utils.create_html('div', {
+            const elem = Utils.create_html('div', {
                 class: BUTTONS[button],
                 parent: category_btns,
                 'data-type': this.type
             });
+
+            if (elem.matches('.display')) {
+                if (this.chart.options.show_hidden) {
+                    elem.classList.remove('show');
+                    elem.classList.add('hide');
+                } else {
+                    elem.classList.remove('hide');
+                    elem.classList.add('show');
+                }
+            }
         }
     }
 
@@ -120,7 +130,7 @@ export default class Category {
         const button = this.html.querySelector('.display');
 
         button.addEventListener('click', function() {
-            // TODO
+            category.toggle_display();
         });
     }
 
@@ -135,6 +145,17 @@ export default class Category {
         }
 
         this.chart.grid.update_svg_bg();
+    }
+
+
+    toggle_display() {
+        this.chart.options.show_hidden = !this.chart.options.show_hidden;
+
+        this.chart.update_resources();
+        this.chart.setup_boundary_dates();
+        this.chart.setup_chart_dates();
+        this.chart.render();
+        this.chart.bind();
     }
 
 

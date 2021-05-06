@@ -58,6 +58,7 @@ export default class TimelineControl {
 
 
     on_click() {
+        this.chart.options.show_hidden = false;
         this.chart.update_resources();
         this.chart.setup_boundary_dates();
         this.chart.setup_chart_dates();

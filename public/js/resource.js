@@ -30,12 +30,12 @@ export default class Resource {
             'data-type': this.category.type
         });
 
-        Utils.create_html('input', {
+        const checkbox = Utils.create_html('input', {
             type: 'checkbox',
-            checked: this.is_hidden,
             class: 'res-selector',
             parent: res
         });
+        checkbox.checked = this.is_selected;
 
         Utils.create_html('div', {
             innerHTML: this.id,
