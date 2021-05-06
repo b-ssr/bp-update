@@ -4,6 +4,7 @@ import Category from './category.js';
 import Resource from './resource.js';
 import Grid from './grid.js';
 import Operation from './operation.js';
+import TimelineControl from './timeline-control.js';
 import { VIEW_MODE } from './constants.js';
 
 class Chart {
@@ -16,6 +17,7 @@ class Chart {
         this.setup(resources);
         this.render();
         this.bind();
+        this.make_features();
         console.timeEnd('FFF')
     }
 
@@ -27,15 +29,15 @@ class Chart {
         this.setup_operations(resources);
         this.setup_boundary_dates();
         this.setup_chart_dates();
-        this.setup_extra();
     }
 
 
     setup_container() {
         this.container = document.getElementById('chart');
-        this.controls = document.getElementById('controls');
-
         this.container.style.display = 'block';
+
+        // show hidden resouces flag
+        this.show_hidden = false;
     }
 
 
@@ -113,6 +115,25 @@ class Chart {
     }
 
 
+    update_resources() {
+        for (let category of this.categories) {
+            let index = 0;
+
+            for (let resource of category.resources) {
+                if (!resource.is_selected) {
+                    resource.is_hidden = true;
+                }
+
+                if (!resource.is_hidden) {
+                    resource.index = index++;
+                } else {
+                    resource.index = -1;
+                }
+            }
+        }
+    }
+
+
     setup_boundary_dates() {
         this.chart_start = this.chart_end = null;
 
@@ -161,15 +182,9 @@ class Chart {
     }
 
 
-    setup_extra() {
-        Utils.set_string_format();
-    }
-
-
     render() {
         this.clear();
         this.setup_layers();
-        this.render_controls();
         this.render_header();
         this.render_panel();
         this.render_grid();
@@ -226,22 +241,6 @@ class Chart {
     }
 
 
-    render_controls() {
-        // clear previous draw button event listener
-        const controls = this.controls.cloneNode(true);
-        this.controls.innerHTML = controls.innerHTML;
-
-        for (let mode in VIEW_MODE) {
-            Utils.create_html('button', {
-                innerHTML: VIEW_MODE[mode],
-                name: VIEW_MODE[mode],
-                class: 'view-button',
-                parent: this.controls
-            });
-        }
-    }
-
-
     render_header() {
         this.timeline = new Timeline(this);
     }
@@ -250,7 +249,13 @@ class Chart {
     render_panel() {
         for (let category of this.categories) {
             category.draw();
-            for (let resource of category.resources) {
+
+            // const resources = category.resources;
+            // if (!this.show_hidden) {
+            //     resources = resources.filter(r => r.is_hidden === false);
+            // }
+            const resources = category.resources.filter(r => r.is_hidden === false);
+            for (let resource of resources) {
                 resource.draw();
             }
         }
@@ -259,12 +264,18 @@ class Chart {
 
     render_grid() {
         this.grid = new Grid(this);
+        this.grid.prepare();
         this.grid.draw();
     }
 
 
     render_operations() {
-        for (let resource of this.resources) {
+        // const resources = this.resources;
+        // if (!this.show_hidden) {
+        //     resources = resources.filter(r => r.is_hidden === false);
+        // }
+        const resources = this.resources.filter(r => r.is_hidden === false);
+        for (let resource of resources) {
             for (let operation of resource.operations) {
                 operation.prepare();
                 operation.draw();
@@ -273,55 +284,30 @@ class Chart {
     }
 
 
-    // TODO !!!
-
     bind() {
-        this.bind_controls();
         for (let category of this.categories) {
             category.bind();
         }
-        for (let resource of this.resources) {
+
+        // const resources = this.resources;
+        // if (!this.show_hidden) {
+        //     resources = resources.filter(r => r.is_hidden === false);
+        // }
+        const resources = this.resources.filter(r => r.is_hidden === false);
+        for (let resource of resources) {
             resource.bind();
         }
-        // this.setup_panel_events();
-        // this.setup_bar_events();
     }
 
 
-    bind_controls() {
-        const chart = this;
-        for (let button of this.controls.childNodes) {
-            button.addEventListener('click', function() {
-                if (button.name) {
-                    chart.options.view_mode = button.name;
-                }
-                chart.on_controls_event(button);
-            });
-        }
+    make_features() {
+        const control_target = document.getElementById('control');
+        this.control = new TimelineControl(this, control_target);
     }
 
 
-    on_controls_event(button) {
-        // console.time('control event');
-        this.highlight_controls(button);
-        this.setup_boundary_dates();
-        this.setup_chart_dates();
-        this.setup_extra();
-        this.render();
-        this.bind();
-        // console.timeEnd('control event');
-    }
+    filter_resources() {
 
-
-    highlight_controls(button) {
-        const draw_button = this.controls.querySelector('#draw');
-        if (button.id !== draw_button.id) {
-            for (let node of this.controls.childNodes) {
-                console.log(node.classList)
-                // node.classList.remove('selected');
-            }
-            // button.classList.add('selected');
-        }
     }
 
 
