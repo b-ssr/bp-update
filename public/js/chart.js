@@ -44,7 +44,6 @@ class Chart {
             bar_corner_radius: 2,
             step: 24,
             view_mode: VIEW_MODE.HOUR,
-            show_hidden: false
         };
         this.options = default_options;
 
@@ -115,7 +114,7 @@ class Chart {
             let index = 0;
 
             for (let resource of category.resources) {
-                if (this.options.show_hidden) {
+                if (category.show_hidden) {
                     resource.is_hidden = false;
                     resource.index = index++;
                 } else {
@@ -134,17 +133,20 @@ class Chart {
     setup_boundary_dates() {
         this.chart_start = this.chart_end = null;
 
-        const resources = this.filter_hidden_resources(this.resources);
-        resources.map(resource => {
-            resource.operations.map(operation => {
-                if (!this.chart_start || operation.time_start < this.chart_start) {
-                    this.chart_start = operation.time_start;
-                }
-                if (!this.chart_end || operation.time_end > this.chart_end) {
-                    this.chart_end = operation.time_end;
-                }
+        for (let category of this.categories) {
+            const resources = category.filter_hidden_resources();
+
+            resources.map(resource => {
+                resource.operations.map(operation => {
+                    if (!this.chart_start || operation.time_start < this.chart_start) {
+                        this.chart_start = operation.time_start;
+                    }
+                    if (!this.chart_end || operation.time_end > this.chart_end) {
+                        this.chart_end = operation.time_end;
+                    }
+                });
             });
-        });
+        }
     }
 
 
@@ -248,7 +250,7 @@ class Chart {
         for (let category of this.categories) {
             category.draw();
 
-            const resources = this.filter_hidden_resources(category.resources);
+            const resources = category.filter_hidden_resources();
             for (let resource of resources) {
                 resource.draw();
             }
@@ -264,11 +266,14 @@ class Chart {
 
 
     render_operations() {
-        const resources = this.filter_hidden_resources(this.resources);
-        for (let resource of resources) {
-            for (let operation of resource.operations) {
-                operation.prepare();
-                operation.draw();
+        for (let category of this.categories) {
+            const resources = category.filter_hidden_resources();
+
+            for (let resource of resources) {
+                for (let operation of resource.operations) {
+                    operation.prepare();
+                    operation.draw();
+                }
             }
         }
     }
@@ -279,9 +284,11 @@ class Chart {
             category.bind();
         }
 
-        const resources = this.filter_hidden_resources(this.resources);
-        for (let resource of resources) {
-            resource.bind();
+        for (let category of this.categories) {
+            const resources = category.filter_hidden_resources();
+            for (let resource of resources) {
+                resource.bind();
+            }
         }
     }
 
@@ -292,15 +299,15 @@ class Chart {
     }
 
 
-    filter_hidden_resources(resources) {
-        let filtered_resources = resources;
-        if (!this.options.show_hidden) {
-            filtered_resources = resources.filter(r => r.is_hidden === false);
-        }
-        return filtered_resources;
-    }
+    // TODO
 
-
+    // filter_hidden_resources(resources) {
+    //     let filtered_resources = resources;
+    //     if (!this.options.show_hidden) {
+    //         filtered_resources = resources.filter(r => r.is_hidden === false);
+    //     }
+    //     return filtered_resources;
+    // }
 
     // TODO
 

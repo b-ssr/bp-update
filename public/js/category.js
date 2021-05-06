@@ -19,6 +19,7 @@ export default class Category {
 
     set_defaults() {
         this.html;
+        this.show_hidden = false;
         this.resources = [];
     }
 
@@ -66,7 +67,7 @@ export default class Category {
             });
 
             if (elem.matches('.display')) {
-                if (this.chart.options.show_hidden) {
+                if (this.show_hidden) {
                     elem.classList.remove('show');
                     elem.classList.add('hide');
                 } else {
@@ -110,14 +111,15 @@ export default class Category {
         const button = this.html.querySelector('.select');
 
         button.addEventListener('click', function() {
-            const not_selected = category.resources.filter(r => !r.is_selected);
+            let resources = category.filter_hidden_resources();
+            const not_selected = resources.filter(r => !r.is_selected);
 
             if (not_selected.length) {
                 not_selected.forEach(resource => {
                     resource.toggle_select();
                 });
             } else {
-                category.resources.forEach(resource => {
+                resources.forEach(resource => {
                     resource.toggle_select();
                 });
             }
@@ -149,7 +151,7 @@ export default class Category {
 
 
     toggle_display() {
-        this.chart.options.show_hidden = !this.chart.options.show_hidden;
+        this.show_hidden = !this.show_hidden;
 
         this.chart.update_resources();
         this.chart.setup_boundary_dates();
@@ -168,5 +170,13 @@ export default class Category {
                 resource.index = index++;
             }
         }
+    }
+
+
+    filter_hidden_resources() {
+        if (!this.show_hidden) {
+            return this.resources.filter(r => r.is_hidden === false);
+        }
+        return this.resources;
     }
 }

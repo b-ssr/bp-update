@@ -23,8 +23,10 @@ export default class Grid {
 
 
     prepare() {
-        this.filtered_resources = 
-            this.chart.filter_hidden_resources(this.chart.resources);
+        this.filtered_resources = [];
+        for (let category of this.chart.categories) {
+            this.filtered_resources.push(...category.filter_hidden_resources());
+        }
     }
 
 
