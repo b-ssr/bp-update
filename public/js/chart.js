@@ -65,8 +65,6 @@ class Chart {
 
 
     setup_resources(resources_data) {
-        this.resources = [];
-
         for (let category of this.categories) {
             const res_filtered = resources_data.filter(r => r.type === category.type);
 
@@ -76,7 +74,6 @@ class Chart {
                 const resource = new Resource(this, category, res_data);
                 resource.index = index++;
 
-                this.resources.push(resource);
                 category.resources.push(resource);
             }
         }
@@ -84,26 +81,25 @@ class Chart {
 
 
     setup_operations(resources_data) {
-        this.operations = [];
+        for (let category of this.categories) {
+            for (let resource of category.resources) {
+                const operations_data = resources_data
+                    .find(r => r.id === resource.id).operations;
 
-        for (let resource of this.resources) {
-            const op_filtered = resources_data.find(r => r.id === resource.id).operations;
-
-            for (let op_data of op_filtered) {
-                if (op_data.type === 'full'){
-                    continue;
+                for (let operation_data of operations_data) {
+                    if (operation_data.type === 'full'){
+                        continue;
+                    }
+                    const operation = new Operation(this, resource, operation_data);
+                    resource.operations.push(operation);
                 }
-                const operation = new Operation(this, resource, op_data);
 
-                this.operations.push(operation);
-                resource.operations.push(operation);
-            }
-
-            resource.operations.sort((o1, o2) => o1.time_start - o2.time_start);
-            // operation index within recource operations
-            let index = 0;
-            for (let operation of resource.operations) {
-                operation.index = index++;
+                resource.operations.sort((o1, o2) => o1.time_start - o2.time_start);
+                // operation index within recource operations
+                let index = 0;
+                for (let operation of resource.operations) {
+                    operation.index = index++;
+                }
             }
         }
     }
