@@ -16,7 +16,7 @@ class DBConnector {
     }
 
 
-    run() {
+    query() {
         const query =
             `SELECT
                 ptw.EquipmentId AS EquipmentId,

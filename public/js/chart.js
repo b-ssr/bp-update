@@ -1,11 +1,11 @@
-import Utils from './utils.js';
-import Timeline from './timeline.js';
-import Category from './category.js';
-import Resource from './resource.js';
-import Grid from './grid.js';
-import Operation from './operation.js';
-import TimelineControl from './timeline-control.js';
-import { VIEW_MODE } from './constants.js';
+import Utils from './utils/utils.js';
+import Timeline from './components/chart/timeline.js';
+import Category from './components/chart/category.js';
+import Resource from './components/chart/resource.js';
+import Grid from './components/chart/grid.js';
+import Operation from './components/chart/operation.js';
+import TimelineControl from './components/extra/timeline-control.js';
+import { VIEW_MODE } from './utils/constants.js';
 
 class Chart {
 
@@ -298,16 +298,6 @@ class Chart {
         this.control = new TimelineControl(this, control_target);
     }
 
-
-    // TODO
-
-    // filter_hidden_resources(resources) {
-    //     let filtered_resources = resources;
-    //     if (!this.options.show_hidden) {
-    //         filtered_resources = resources.filter(r => r.is_hidden === false);
-    //     }
-    //     return filtered_resources;
-    // }
 
     // TODO
 

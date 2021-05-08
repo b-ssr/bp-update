@@ -1,4 +1,4 @@
-import Utils from './utils.js';
+import Utils from '../../utils/utils.js';
 
 // category buttons. key - button name, value - array of css classes
 const BUTTONS = {
@@ -161,6 +161,7 @@ export default class Category {
     }
 
 
+    // TODO
     recalc_res_indexes() {
         let index = 0;
         for (let resource of this.resources) {

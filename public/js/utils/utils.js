@@ -101,6 +101,7 @@ class Utils {
         return elem;
     }
 
+    // merge with create svg
     static create_html(tag, attrs, prepend) {
         const elem = document.createElement(tag);
         for (let attr in attrs) {

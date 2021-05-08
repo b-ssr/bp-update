@@ -1,5 +1,5 @@
-import Utils from './utils.js';
-import { VIEW_MODE } from './constants.js';
+import Utils from '../../utils/utils.js';
+import { VIEW_MODE } from '../../utils/constants.js';
 
 export default class Timeline {
 

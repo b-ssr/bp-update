@@ -14,10 +14,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/go', (req, res) => {
-    const db_conn = new DBConnector('./database/source/gent-1.db');
-    // const db_conn = new DBConnector('./database/source/IDE-gf.db');
+    // const db_conn = new DBConnector('./database/source/gent-1.db');
+    const db_conn = new DBConnector('./database/source/IDE-gf.db');
 
-    db_conn.run().then((data) => {
+    db_conn.query().then((data) => {
         console.log('done!');
         res.send(data);
     }, (err) => {
