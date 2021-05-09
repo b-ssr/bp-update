@@ -1,4 +1,6 @@
 import Utils from '../../utils/utils.js';
+import Operation from './operation.js';
+import Popup from './popup.js';
 
 export default class Grid {
 
@@ -12,6 +14,7 @@ export default class Grid {
     set_defaults() {
         this.svg_bg;
         this.svg_sections = [];
+        this.html = this.chart.content_layers.grid;
 
         this.offset = this.chart.options.grid_offset;
         this.row_height = this.chart.options.row_height;
@@ -37,14 +40,14 @@ export default class Grid {
 
         for (let category of this.chart.categories) {
             this.draw_break();
-            this.svg_sections.push(this.draw_section(category));
+            this.draw_section(category);
         }
     }
 
     draw_background() {
         const bg_container = Utils.create_html('div', {
             style: 'width: 0px; height: 0px',
-            parent: this.chart.content_layers.grid
+            parent: this.html
         });
 
         const cnt = this.filtered_resources.length + this.chart.categories.length;
@@ -113,7 +116,7 @@ export default class Grid {
                 'height: ' + height + 'px; ' +
                 'position: sticky; ' +
                 'top: ' + this.chart.options.header_height + 'px',
-            parent: this.chart.content_layers.grid
+            parent: this.html
         });
     }
 
@@ -129,18 +132,42 @@ export default class Grid {
             style:
                 'width: ' + width + 'px; ' +
                 'height: ' + height * cnt + 'px;',
-            parent: this.chart.content_layers.grid
+            parent: this.html
         });
 
         const svg_section = Utils.create_svg('svg', {
             width: width,
             height: height * cnt,
             style: 'display: block',
-            parent: svg_container
+            parent: svg_container,
+            'data-type': category.type
         });
 
         // attach svg section (container for operations) to category
         category.ops_section = svg_section;
+        this.svg_sections.push(svg_section);
+    }
+
+
+    bind() {
+        const chart = this.chart;
+
+        this.html.addEventListener('click', function(event) {
+            chart.reset();
+
+            if (event.target.matches('.bar')) {
+                const id = event.target.dataset.id;
+                const order = event.target.dataset.order;
+                const operation = chart.find_operation(id, order);
+
+                if (event.detail == 2) {
+                    const popup = new Popup(chart, operation);
+                    popup.draw(event.layerX, event.layerY);
+                    chart.popups.push(popup);
+                }
+                operation.select();
+            }
+        })
     }
 
 

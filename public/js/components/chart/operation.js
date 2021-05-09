@@ -17,9 +17,9 @@ export default class Operation {
         this.time_start = new Date(this.operation_data.time_start);
         this.time_end = new Date(this.operation_data.time_end);
 
-        this.index;
-        // container for this operation
-        this.section;
+        this.order;
+        this.html;
+        this.section; // container for this operation
     }
 
 
@@ -45,7 +45,7 @@ export default class Operation {
 
 
     draw() {
-        Utils.create_svg('rect', {
+        this.html = Utils.create_svg('rect', {
             x: this.x,
             y: this.y,
             width: this.width,
@@ -57,8 +57,26 @@ export default class Operation {
             'data-id': this.id,
             'data-order': this.order,
             'data-type': this.type,
-            'data-res-index': this.resource.index,
-            'data-res-type': this.resource.type
+        });
+    }
+
+
+    select() {
+        this.html.style['stroke-width'] = '2.5px';
+    }
+
+
+    deselect() {
+        this.html.style['stroke-width'] = '1px';
+    }
+
+
+    reset_bars() {
+        const bars = this.container.querySelectorAll('.bar');
+
+        bars.forEach(bar => {
+            bar.classList.remove('group-select');
+            bar.style['stroke-width'] = '1px';
         });
     }
 }

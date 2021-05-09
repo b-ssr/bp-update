@@ -177,10 +177,56 @@
 
 .popup {
     height: 90%;
+    width: max-content;
+    height: max-content;
     border-radius: 10px;
     padding: 5px;
     background-color: darkseagreen;
     animation: fadein 0.5s;
+    z-index: 200;
+}
+
+.popup .op {
+    display: inline;
+}
+
+.popup .op-state {
+    display: inline;
+    text-transform: uppercase;
+}
+
+.popup .res {
+    display: inline;
+}
+
+.popup .res-type {
+    display: inline;
+    text-transform: uppercase;
+}
+
+.popup .start {
+    display: inline;
+}
+
+.popup .end {
+    display: inline;
+}
+
+.popup-blocker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    content: ' ';
+    z-index: 15;
+}
+
+.popup-layer {
+    width: 0px;
+    height: 0px;
+    position: relative;
+    z-index: 50;
 }
 
 @keyframes fadein {
