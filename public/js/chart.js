@@ -5,6 +5,8 @@ import Resource from './components/chart/resource.js';
 import Grid from './components/chart/grid.js';
 import Operation from './components/chart/operation.js';
 import TimelineControl from './components/extra/timeline-control.js';
+import DatepPicker from './components/extra/date-picker.js';
+import Search from './components/extra/search.js';
 import { VIEW_MODE } from './utils/constants.js';
 
 class Chart {
@@ -23,9 +25,7 @@ class Chart {
         this.setup_options();
         this.setup_categories(resources);
         this.setup_resources(resources);
-        console.time('OOO')
         this.setup_operations(resources);
-        console.timeEnd('OOO')
         this.setup_boundary_dates();
         this.setup_chart_dates();
     }
@@ -67,6 +67,8 @@ class Chart {
 
 
     setup_resources(resources_data) {
+        this.resources = [];
+
         for (let category of this.categories) {
             const res_filtered = resources_data.filter(r => r.type === category.type);
 
@@ -77,6 +79,7 @@ class Chart {
                 resource.index = index++;
 
                 category.resources.push(resource);
+                this.resources.push(resource);
             }
         }
     }
@@ -316,12 +319,31 @@ class Chart {
 
     make_features() {
         const control_target = document.getElementById('control');
+        const picker_target = document.getElementById('picker');
+        const search_target = document.getElementById('search');
+
         this.control = new TimelineControl(this, control_target);
+        this.picker = new DatepPicker(this, picker_target);
+        this.search = new Search(this, search_target);
     }
 
 
-    find_operation(id, order) {
-        return this.operations.find(o => o.id == id && o.order == order);
+    find_resource(id) {
+        let res = this.resources.find(r => r.id == id);
+        return res;
+    }
+    
+
+    find_operation(id, res_type, order) {
+        let ops;
+        ops = this.operations.filter(o => o.id == id);
+        if (res_type) {
+            ops = ops.filter(o => o.resource.category.type == res_type);
+        }
+        if (order) {
+            ops = ops.filter(o => o.order == order);
+        }
+        return ops[0];
     }
 
 
@@ -331,6 +353,9 @@ class Chart {
         });
         this.popups.forEach(popup => {
             popup.destroy();
+        });
+        this.resources.forEach(resource => {
+            resource.clear_highlight();
         });
     }
 }

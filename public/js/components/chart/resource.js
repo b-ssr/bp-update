@@ -80,4 +80,14 @@ export default class Resource {
         const elem = this.html.querySelector('.res-selector');
         elem.checked = !elem.checked;
     }
+
+
+    highlight() {
+        this.html.classList.add('selected');
+    }
+
+
+    clear_highlight() {
+        this.html.classList.remove('selected');
+    }
 }

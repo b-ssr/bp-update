@@ -1,3 +1,6 @@
+
+npx webpack --config webpack.config.js
+
 CHART:
     Setup
         options

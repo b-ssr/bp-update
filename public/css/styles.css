@@ -10,7 +10,7 @@
 }
 
 #draw {
-    margin-right: 170px;
+    margin-right: 20px;
 }
 
 .header {
@@ -146,6 +146,11 @@
     padding-right: 5px;
 }
 
+.resource.selected {
+    background-color: darkseagreen;
+    border-radius: 7px;
+}
+
 .resource .res-selector {
     margin-right: 5px;
     cursor: pointer;
@@ -229,7 +234,30 @@
     z-index: 50;
 }
 
+.popup table {
+    border-spacing: 0;
+}
+
+.popup td:first-child {
+    text-align: right;
+}
+
 @keyframes fadein {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+#autoComplete_list {
+    top: auto !important; 
+    left: auto !important;
+    right: auto !important;
+}
+
+.features {
+    display: flex;
+    justify-content: space-between;
+}
+
+.features #picker {
+    margin-right: 50px;
 }

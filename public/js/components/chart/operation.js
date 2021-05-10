@@ -57,6 +57,7 @@ export default class Operation {
             'data-id': this.id,
             'data-order': this.order,
             'data-type': this.type,
+            'data-res-type': this.resource.category.type,
         });
     }
 

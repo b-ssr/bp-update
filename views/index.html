@@ -3,17 +3,28 @@
     <head>
         <meta charset="UTF-8">
         <title>Chart!</title>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <link rel="stylesheet" href="/css/styles.css"></style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/css/datepicker.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@9.1.1/dist/css/autoComplete.min.css">
     </head>
     <body>
         <div>
             <h2>Výrobní rozvrh...</h2>
-            <div id="control">
-                <button id="draw">Draw!</button>
+            <div class="features">
+                <div id="control">
+                    <button id="draw">Draw!</button>
+                </div>
+                <div>
+                    <input id="search" type="text">
+                </div>
+                <input id="picker" type="text">
             </div>
             <div id="chart"></div>
         </div>
+
+        <!-- <script src="main.js">
+        </script> -->
+
         <script> var chart; </script>
         <script type="module">
             import Chart from '/js/chart.js';
@@ -30,5 +41,10 @@
 
             });
         </script>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/js/datepicker-full.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/js/locales/en-GB.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@9.1.1/dist/js/autoComplete.min.js"></script>
     </body>
 </html>

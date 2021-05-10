@@ -7,6 +7,7 @@ const app = express();
 
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 
 app.get('/', (req, res) => {
@@ -14,8 +15,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/go', (req, res) => {
-    // const db_conn = new DBConnector('./database/source/gent-1.db');
-    const db_conn = new DBConnector('./database/source/IDE-gf.db');
+    const db_conn = new DBConnector('./database/source/gent-1.db');
+    // const db_conn = new DBConnector('./database/source/IDE-gf.db');
 
     db_conn.query().then((data) => {
         console.log('done!');

@@ -10,9 +10,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tarekraafat/autocomplete.js": "^9.1.1",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "javascript-autocomplete": "^1.0.5",
+    "jquery": "^3.6.0",
     "sqlite3": "^5.0.2",
+    "uniq": "^1.0.1",
     "vanillajs-datepicker": "^1.1.4"
+  },
+  "devDependencies": {
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.7.0"
   }
 }

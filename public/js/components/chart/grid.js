@@ -158,7 +158,8 @@ export default class Grid {
             if (event.target.matches('.bar')) {
                 const id = event.target.dataset.id;
                 const order = event.target.dataset.order;
-                const operation = chart.find_operation(id, order);
+                const res_type = event.target.dataset.resType;
+                const operation = chart.find_operation(id, res_type, order);
 
                 if (event.detail == 2) {
                     const popup = new Popup(chart, operation);

@@ -158,6 +158,7 @@ export default class Category {
         this.chart.setup_chart_dates();
         this.chart.render();
         this.chart.bind();
+        this.chart.search.setup();
     }
 
 

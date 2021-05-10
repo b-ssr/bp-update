@@ -15,11 +15,27 @@ export default class Popup {
         this.layer = chart.popup_layer;
 
         this.text = `
-            <div><strong>Operation ID:</strong> <div class="op"></div></div>
-            <div>Resource ID: <div class="res"></div></div>
-            <div><strong>Start:</strong> <div class="start"></div> <strong>End:</strong> <div class="end"></div></div>
-            <div>Resource type: <div class="res-type"></div>
-            <div>Operation state: <div class="op-state"></div>
+        <table>
+            <tr>
+                <td><strong>Operation ID - </strong></td>
+                <td class="op"></td>
+            </tr>
+            <tr>
+                <td><strong>Start - </strong></td><td class="start"></td>
+            </tr>
+            <tr>
+                <td><strong>End - </strong></td>
+                <td class="end"></td>
+            </tr>
+            <tr>
+                <td><strong>State - </strong></td>
+                <td class="op-state"></td>
+            </tr>
+            <tr>
+                <td><strong>Resource - </strong></td>
+                <td><div class="res"></div> (<div class="res-type"></div>)</td>
+            </tr>
+        </table>
         `;
     }
 
