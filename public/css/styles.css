@@ -45,10 +45,20 @@
     justify-content: space-around;
 }
 
-.header-timeline .lower {
+.header-timeline .lowers {
     height: 50%;
     display: flex;
     align-items: center;
+}
+
+.header-timeline .lower.selected {
+    background-color: darkseagreen;
+    border-radius: 7px;
+}
+
+.header-timeline .upper.selected {
+    background-color: darkseagreen;
+    border-radius: 7px;
 }
 
 .grid-row {

@@ -62,12 +62,12 @@ export default class Operation {
     }
 
 
-    select() {
+    highlight() {
         this.html.style['stroke-width'] = '2.5px';
     }
 
 
-    deselect() {
+    clear_highlight() {
         this.html.style['stroke-width'] = '1px';
     }
 

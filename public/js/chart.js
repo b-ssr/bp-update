@@ -347,15 +347,16 @@ class Chart {
     }
 
 
-    reset() {
-        this.operations.forEach(operation => {
-            operation.deselect();
-        });
-        this.popups.forEach(popup => {
-            popup.destroy();
-        });
+    reset_resources() {
         this.resources.forEach(resource => {
             resource.clear_highlight();
+        });
+    }
+
+
+    reset_operations() {
+        this.operations.forEach(operation => {
+            operation.clear_highlight();
         });
     }
 }

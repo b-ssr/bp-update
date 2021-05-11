@@ -71,7 +71,8 @@ export default class Search {
             res_type = res_type.substring(1, res_type.length - 1);
         }
 
-        this.chart.reset();
+        this.chart.reset_resources();
+        this.chart.reset_operations();
         this.selected_id = id;
 
         if (res_type) {
@@ -92,17 +93,12 @@ export default class Search {
 
     make_selection_op(id, res_type) {
         const operation = this.chart.find_operation(id, res_type, null);
-        operation.select();
+        operation.highlight();
         operation.resource.highlight();
 
         operation.resource.html.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'nearest'})
         setTimeout(function() {
             operation.html.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center'})
         }, 500)
-    }
-
-
-    bind() {
-
     }
 }

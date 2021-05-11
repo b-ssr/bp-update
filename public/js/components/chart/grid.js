@@ -153,7 +153,7 @@ export default class Grid {
         const chart = this.chart;
 
         this.html.addEventListener('click', function(event) {
-            chart.reset();
+            chart.reset_operations();
 
             if (event.target.matches('.bar')) {
                 const id = event.target.dataset.id;
@@ -166,7 +166,7 @@ export default class Grid {
                     popup.draw(event.layerX, event.layerY);
                     chart.popups.push(popup);
                 }
-                operation.select();
+                operation.highlight();
             }
         })
     }

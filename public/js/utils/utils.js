@@ -2,77 +2,31 @@ import { VIEW_MODE, MONTH_NAMES } from './constants.js'
 
 class Utils {
 
-    // TODO grid width. DELETE this.options.column_width
-    // let width = this.options.grid_width + this.options.column_width + 170; // + panel width
-    // let height = this.options.header_height + 
-    //     (this.options.bar_height + this.options.bar_padding) * Object.values(this.svgs_sizes).length;
-    // // TODO grid height !!!!
-    // Object.values(this.svgs_sizes).forEach(v => height += v.height);
-
-    static set_string_format() {
-        if (!String.format) {
-            String.format = function(format) {
-                var args = Array.prototype.slice.call(arguments, 1);
-                return format.replace(/{(\d+)}/g, function(match, number) { 
-                    return typeof args[number] != 'undefined'
-                        ? args[number] 
-                        : match;
-                });
-            };
-        }
-    }
-
-
-    static get_date_text(date) {
-        let date_string = date.toString();
-        return date_string.substr(0, date_string.indexOf('GMT') - 1);
-    }
-
-
-    static create_popup(parent, width, height, margin_top, margin_left, content) {
-        const svg = this.create_svg('svg', {
-            width: width,
-            height: height,
-            style:
-                'margin-top: ' + margin_top + 'px;' +
-                'margin-left: ' + margin_left + 'px',
-            parent: parent
-        });
-
-        const foreign = this.create_svg('foreignObject', {
-            width: width,
-            height: height,
-            parent: svg
-        });
-
-        this.create_html('div', {
-            innerHTML: content,
-            class: 'popup',
-            parent: foreign
-        });
-    }
-
-    // cuts given date to the nearest previous one according to view mode
-    // and shifts cutted result to the left or right
-    static adjust_date(date, view_mode, shift) {
+    // cuts given date to the nearest one according to view mode
+    // is_upper specifies, if date corresponds to upper or lower date block
+    static adjust_date(date, view_mode, is_upper) {
         let new_date = new Date(date.getTime());
 
-        if (view_mode == VIEW_MODE.HOUR) {
-            new_date.setHours(date.getHours() + shift, 0, 0, 0);
-        } else if (view_mode == VIEW_MODE.QUARTER_DAY) {
-            new_date.setHours((Math.floor(date.getHours() / 6) + shift) * 6, 0, 0, 0);
-        } else if (view_mode == VIEW_MODE.HALF_DAY) {
-            new_date.setHours((Math.floor(date.getHours() / 12) + shift) * 12, 0, 0, 0);
-        } else if (view_mode == VIEW_MODE.DAY) {
-            new_date.setHours(0, 0, 0, 0);
-        } else if (view_mode == VIEW_MODE.WEEK) {
-            // TODO
-            current_date = Utils.inc_date(current_date, 7, 'day');
-        } else if (view_mode == VIEW_MODE.MONTH) {
-            current_date = Utils.inc_date(current_date, 1, 'month');
+        switch (view_mode) {
+            case VIEW_MODE.HOUR:
+                if (is_upper) new_date.setHours(0, 0, 0, 0);
+                else new_date.setHours(date.getHours(), 0, 0, 0)
+                break;
+            case VIEW_MODE.QUARTER_DAY:
+                if (is_upper) new_date.setHours(0, 0, 0, 0);
+                else new_date.setHours(Math.floor(date.getHours() / 6) * 6, 0, 0, 0)
+            case VIEW_MODE.HALF_DAY:
+                if (is_upper) new_date.setHours(0, 0, 0, 0);
+                else new_date.setHours(Math.floor(date.getHours() / 12) * 12, 0, 0, 0)
+                break;
+            case VIEW_MODE.DAY:
+                if (is_upper) new_date.setMonth(date.getMonth(), 1);
+                else new_date.setHours(0, 0, 0, 0);
+                break;
         }
         return new_date;
     }
+
 
     static inc_date(date, quantity, scale) {
         const values = [
@@ -85,6 +39,7 @@ class Utils {
         ];
         return new Date(...values)
     }
+
 
     static create_svg(tag, attrs) {
         const elem = document.createElementNS('http://www.w3.org/2000/svg', tag);
@@ -121,6 +76,7 @@ class Utils {
         return elem;
     }
 
+
     static format(date, format_string = 'YYYY-MM-DD HH:mm:ss.SSS') {
         const values = this.get_date_values(date);
         const format_map = {
@@ -149,6 +105,7 @@ class Utils {
         return str;
     }
 
+
     static get_view_step_ms(view_mode) {
         let base = 3600000;
         switch (view_mode) {
@@ -166,6 +123,7 @@ class Utils {
                 return base * 24 * 7 * 30;
         }
     }
+
 
     static get_date_values(date) {
         return [
