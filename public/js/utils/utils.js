@@ -15,13 +15,24 @@ class Utils {
             case VIEW_MODE.QUARTER_DAY:
                 if (is_upper) new_date.setHours(0, 0, 0, 0);
                 else new_date.setHours(Math.floor(date.getHours() / 6) * 6, 0, 0, 0)
+                break;
             case VIEW_MODE.HALF_DAY:
                 if (is_upper) new_date.setHours(0, 0, 0, 0);
                 else new_date.setHours(Math.floor(date.getHours() / 12) * 12, 0, 0, 0)
                 break;
             case VIEW_MODE.DAY:
-                if (is_upper) new_date.setMonth(date.getMonth(), 1);
-                else new_date.setHours(0, 0, 0, 0);
+                new_date.setHours(0, 0, 0, 0);
+                if (is_upper) new_date.setDate(1);
+                break;
+            case VIEW_MODE.WEEK:
+                new_date.setHours(0, 0, 0, 0);
+                if (is_upper) new_date.setDate(1);
+                else new_date.setDate(date.getDate() - 3);
+                break;
+            case VIEW_MODE.MONTH:
+                new_date.setHours(0, 0, 0, 0);
+                if (is_upper) new_date.setMonth(0, 1);
+                else new_date.setDate(1);
                 break;
         }
         return new_date;

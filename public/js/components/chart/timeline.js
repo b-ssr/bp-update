@@ -80,15 +80,16 @@ export default class Timeline {
         const first = nodes[0];
         const last = nodes[nodes.length - 1];
 
-        Utils.create_html('div', {
-            style: 'width: ' + this.chart.options.grid_offset + 'px',
-            parent: first
-        }, true);
+        // TODO
+        // Utils.create_html('div', {
+        //     style: 'width: ' + this.chart.options.grid_offset + 'px',
+        //     parent: first
+        // }, true);
 
-        Utils.create_html('div', {
-            style: 'width: ' + this.chart.options.grid_offset + 'px',
-            parent: last
-        });
+        // Utils.create_html('div', {
+        //     style: 'width: ' + this.chart.options.grid_offset + 'px',
+        //     parent: last
+        // });
     }
 
 

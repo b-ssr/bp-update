@@ -16,7 +16,10 @@ export default class Grid {
         this.svg_sections = [];
         this.html = this.chart.content_layers.grid;
 
-        this.offset = this.chart.options.grid_offset;
+        // TODO
+        this.offset = 0;
+        // this.offset = this.chart.options.grid_offset;
+
         this.row_height = this.chart.options.row_height;
         this.column_width = this.chart.options.column_width;
 

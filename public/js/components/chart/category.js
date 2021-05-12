@@ -162,19 +162,6 @@ export default class Category {
     }
 
 
-    // TODO
-    recalc_res_indexes() {
-        let index = 0;
-        for (let resource of this.resources) {
-            if (resource.is_hidden) {
-                resource.index = -1;
-            } else {
-                resource.index = index++;
-            }
-        }
-    }
-
-
     filter_hidden_resources() {
         if (!this.show_hidden) {
             return this.resources.filter(r => r.is_hidden === false);

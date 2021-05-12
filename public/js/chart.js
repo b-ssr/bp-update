@@ -168,7 +168,7 @@ class Chart {
     setup_chart_dates() {
         this.chart_dates = [];
 
-        let current_date = Utils.adjust_date(this.chart_start, this.options.view_mode, 0);
+        let current_date = Utils.adjust_date(this.chart_start, this.options.view_mode, false);
         this.chart_dates.push(current_date);
 
         while (current_date < this.chart_end) {
@@ -192,8 +192,8 @@ class Chart {
         this.chart_end = this.chart_dates[this.chart_dates.length - 1];
 
         // full time = end - start + padding
-        this.full_time = this.chart_end - this.chart_start
-            + Utils.get_view_step_ms(this.options.view_mode);
+        this.full_time = this.chart_end - this.chart_start;
+            // + Utils.get_view_step_ms(this.options.view_mode);
     }
 
 
