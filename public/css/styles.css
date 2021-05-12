@@ -271,3 +271,15 @@
 .features #picker {
     margin-right: 50px;
 }
+
+.multi-select-options .option.iterating {
+    background-color: #ed928c;
+}
+
+.multi-select-options .option.installing {
+    background-color: #aaeda4;
+}
+
+.multi-select-options .option.starting {
+    background-color: #f0ee95;
+}

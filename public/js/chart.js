@@ -7,6 +7,7 @@ import Operation from './components/chart/operation.js';
 import TimelineControl from './components/extra/timeline-control.js';
 import DatepPicker from './components/extra/date-picker.js';
 import Search from './components/extra/search.js';
+import OperationFilter from './components/extra/operation-filter.js';
 import { VIEW_MODE } from './utils/constants.js';
 
 class Chart {
@@ -148,11 +149,22 @@ class Chart {
     setup_boundary_dates() {
         this.chart_start = this.chart_end = null;
 
+        // find selected operation types, then filter them. 
+        // by default all types are selected
+        let selected_types;
+        if (this.filter) {
+            selected_types = this.filter.get_selected_types();
+        }
+
         for (let category of this.categories) {
             const resources = category.filter_hidden_resources();
 
-            resources.map(resource => {
-                resource.operations.map(operation => {
+            for (let resource of resources) {
+                let operations = resource.operations;
+                if (selected_types) {
+                    operations = operations.filter(o => selected_types.includes(o.type));
+                }
+                operations.map(operation => {
                     if (!this.chart_start || operation.time_start < this.chart_start) {
                         this.chart_start = operation.time_start;
                     }
@@ -160,7 +172,7 @@ class Chart {
                         this.chart_end = operation.time_end;
                     }
                 });
-            });
+            }
         }
     }
 
@@ -292,11 +304,21 @@ class Chart {
 
 
     render_operations() {
+        // by default all types are selected
+        let selected_types;
+        if (this.filter) {
+            selected_types = this.filter.get_selected_types();
+        }
+
         for (let category of this.categories) {
             const resources = category.filter_hidden_resources();
 
             for (let resource of resources) {
-                for (let operation of resource.operations) {
+                let operations = resource.operations;
+                if (selected_types) {
+                    operations = operations.filter(o => selected_types.includes(o.type));
+                }
+                for (let operation of operations) {
                     operation.prepare();
                     operation.draw();
                 }
@@ -321,10 +343,12 @@ class Chart {
         const control_target = document.getElementById('control');
         const picker_target = document.getElementById('picker');
         const search_target = document.getElementById('search');
+        const filter_target = document.getElementById('filter');
 
         this.control = new TimelineControl(this, control_target);
         this.picker = new DatepPicker(this, picker_target);
         this.search = new Search(this, search_target);
+        this.filter = new OperationFilter(this, filter_target);
     }
 
 

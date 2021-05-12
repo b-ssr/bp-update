@@ -1,4 +1,4 @@
-import autoComplete from "@tarekraafat/autocomplete.js";
+// import autoComplete from "@tarekraafat/autocomplete.js";
 
 export default class Search {
 
@@ -84,14 +84,23 @@ export default class Search {
 
     make_selection_res(id) {
         const resource = this.chart.find_resource(id);
-        resource.highlight();
 
+        if (resource.category.is_collapsed) {
+            resource.category.toggle_collapse();
+        }
+
+        resource.highlight();
         resource.html.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'nearest'})
     }
 
 
     make_selection_op(id, res_type) {
         const operation = this.chart.find_operation(id, res_type, null);
+
+        if (operation.resource.category.is_collapsed) {
+            operation.resource.category.toggle_collapse();
+        }
+
         operation.highlight();
         operation.resource.highlight();
 

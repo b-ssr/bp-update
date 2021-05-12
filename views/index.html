@@ -4,8 +4,9 @@
         <meta charset="UTF-8">
         <title>Chart!</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/css/datepicker.min.css">
-        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@9.1.1/dist/css/autoComplete.min.css"> -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@9.1.1/dist/css/autoComplete.min.css">
         <link rel="stylesheet" href="/css/styles.css"></style>
+        <link rel="stylesheet" href="/css/multiselect-dropdown.css"></style>
     </head>
     <body>
         <div>
@@ -20,23 +21,16 @@
                 <div>
                     <input id="picker" type="text">
                 </div>
-                <div class="">
-                    <select id="test-select" class="myselect">
-                        <option value="php">PHP</option>
-                        <option value="javascript">Javascript!</option>
-                        <option value="java">Java</option>
-                        <option value="csharp">C Sharp</option>
-                        <option value="foo">Fooooo</option>
-                        <option value="bar">Barrrr</option>
-                    </select>
+                <div>
+                    <select id="filter"></select>
                 </div>
             </div>
             <div id="chart"></div>
         </div>
 
-        <script src="main.js"></script>
+        <!-- <script src="main.js"></script> -->
 
-        <!-- <script> var chart; </script>
+        <script> var chart; </script>
         <script type="module">
             import Chart from '/js/chart.js';
 
@@ -51,11 +45,11 @@
                 });
 
             });
-        </script> -->
+        </script>
 
-        <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/js/datepicker-full.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/js/locales/en-GB.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@9.1.1/dist/js/autoComplete.min.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@9.1.1/dist/js/autoComplete.min.js"></script>
+        <script src="multiselect-dropdown.min.js"></script>
     </body>
 </html>

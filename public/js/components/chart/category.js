@@ -19,6 +19,7 @@ export default class Category {
 
     set_defaults() {
         this.html;
+        this.is_collapsed = false;
         this.show_hidden = false;
         this.resources = [];
     }
@@ -76,6 +77,21 @@ export default class Category {
                 }
             }
         }
+
+        this.add_button_titles(category_btns);
+    }
+
+
+    add_button_titles(category_btns) {
+        for (let button of category_btns.children) {
+            if (button.matches('.display')) {
+                button.setAttribute('title', 'Show/hide resources');
+            } else if (button.matches('.select')) {
+                button.setAttribute('title', 'Select/unselect all resources');
+            } else if (button.matches('.collapse')){
+                button.setAttribute('title', 'Collapse/expand category');
+            }
+        }
     }
 
 
@@ -91,16 +107,6 @@ export default class Category {
         const button = this.html.querySelector('.collapse');
 
         button.addEventListener('click', function() {
-            this.classList.toggle('up');
-            this.classList.toggle('down');
-
-            // toggle visibility of sibling buttons
-            this.parentNode.childNodes.forEach(e => {
-                if (e !== this) {
-                    e.style.visibility = e.style.visibility === 'hidden' ? '' : 'hidden';
-                }
-            })
-
             category.toggle_collapse();
         });
     }
@@ -138,6 +144,9 @@ export default class Category {
 
 
     toggle_collapse() {
+        this.is_collapsed = !this.is_collapsed;
+        this.update_buttons();
+
         // hide section with operations
         const elem = this.ops_section.parentNode;
         elem.style.display = elem.style.display === 'none' ? '' : 'none';
@@ -150,6 +159,20 @@ export default class Category {
     }
 
 
+    update_buttons() {
+        const buttons = this.html.querySelector('.category-btns');
+
+        for (let button of buttons.children) {
+            if (button.matches('.collapse')) {
+                button.classList.toggle('up');
+                button.classList.toggle('down');
+            } else {
+                button.style.visibility = button.style.visibility === 'hidden' ? '' : 'hidden';
+            }
+        }
+    }
+
+
     toggle_display() {
         this.show_hidden = !this.show_hidden;
 
@@ -158,7 +181,7 @@ export default class Category {
         this.chart.setup_chart_dates();
         this.chart.render();
         this.chart.bind();
-        this.chart.search.setup();
+        this.chart.search.setup_data();
     }
 
 

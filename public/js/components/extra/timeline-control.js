@@ -67,7 +67,7 @@ export default class TimelineControl {
         this.chart.setup_chart_dates();
         this.chart.render();
         this.chart.bind();
-        this.chart.search.setup();
+        this.chart.search.setup_data();
     }
 
 

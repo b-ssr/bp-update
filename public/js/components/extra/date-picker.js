@@ -1,4 +1,4 @@
-import { Datepicker } from 'vanillajs-datepicker';
+// import { Datepicker } from 'vanillajs-datepicker';
 
 export default class DatepPicker {
 
