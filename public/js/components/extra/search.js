@@ -1,5 +1,4 @@
-import Utils from '../../utils/utils.js';
-import {VIEW_MODE} from '../../utils/constants.js';
+import autoComplete from "@tarekraafat/autocomplete.js";
 
 export default class Search {
 

@@ -12,7 +12,7 @@ export default class Popup {
 
     set_defaults() {
         this.html;
-        this.layer = chart.popup_layer;
+        this.layer = this.chart.popup_layer;
 
         this.text = `
         <table>
