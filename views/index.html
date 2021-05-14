@@ -22,6 +22,16 @@
                     <input id="picker" type="text">
                 </div>
                 <div>
+                    <form
+                        id='uploadForm' 
+                        action='http://localhost:3003/upload' 
+                        method='post' 
+                        enctype="multipart/form-data">
+                            <input type="file" name="dbFile" />
+                            <input type='submit' value='Upload!' />
+                    </form>     
+                </div>
+                <div>
                     <select id="filter"></select>
                 </div>
             </div>
@@ -29,6 +39,10 @@
         </div>
 
         <!-- <script src="main.js"></script> -->
+        <script>
+            const data = JSON.parse('<%- data %>');
+            console.log(data);
+        </script>
 
         <script> var chart; </script>
         <script type="module">
@@ -36,6 +50,7 @@
 
             // TODO into js vanilla
             $(document).ready(function() {
+
 
                 $("#draw").click(function() {
                     $.get("/go", function(data) {

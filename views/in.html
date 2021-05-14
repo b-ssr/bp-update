@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Gantt chart</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/page.css"></style>
+    </head>
+
+    <body>
+        <header>
+            <div class="navbar navbar-dark bg-dark box-shadow">
+                <div class="container d-flex justify-content-between">
+                    <a href="/" class="navbar-brand d-flex align-items-center">
+                        <strong>Visualisation of Manufacture Schedules</strong>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main role="main" class="main-page">
+            <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Album example</h1>
+                <p class="lead text-muted">
+                    Something short and leading about the collection below—its contents, the creator, etc.
+                    Make it short and sweet, but not too short so folks don't simply skip over it entirely.
+                </p>
+                <p>
+                    <form
+                        action='/upload' 
+                        method='post' 
+                        enctype="multipart/form-data">
+                            <div id="drawButton" style="display: none;">
+                                <input type="submit" value="Draw!" class="btn btn-outline-primary btn-lg"/>
+                            </div>
+                            <div>
+                                <label>
+                                    <input type="file" name="dbFile" style="display: none;" accept=".db">
+                                    <a class="btn btn-outline-secondary my-2">Upload file</a>
+                                </label>
+                            </div>
+                            <div id="fileName" style="display: none;"></div>
+                    </form>
+                </p>
+            </div>
+            </section>
+        </main>
+
+        <footer class="text-muted">
+            <div class="container">
+                <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+            </div>
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('input[name="dbFile"]').on('change', function() {
+                    const filename = this.value.replace(/.*[\/\\]/, ''); 
+
+                    $('#fileName').html(filename).show();
+                    $('#drawButton').show();
+                })
+            });
+        </script>
+    </body>
+</html>
