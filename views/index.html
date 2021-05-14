@@ -1,70 +1,49 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Chart!</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/css/datepicker.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@9.1.1/dist/css/autoComplete.min.css">
-        <link rel="stylesheet" href="/css/styles.css"></style>
-        <link rel="stylesheet" href="/css/multiselect-dropdown.css"></style>
-    </head>
+    <%- include('partials/head.html'); %>
     <body>
-        <div>
-            <h2>Výrobní rozvrh...</h2>
-            <div class="features">
-                <div id="control">
-                    <button id="draw">Draw!</button>
-                </div>
-                <div>
-                    <input id="search" type="text">
-                </div>
-                <div>
-                    <input id="picker" type="text">
-                </div>
-                <div>
-                    <form
-                        id='uploadForm' 
-                        action='http://localhost:3003/upload' 
-                        method='post' 
-                        enctype="multipart/form-data">
-                            <input type="file" name="dbFile" />
-                            <input type='submit' value='Upload!' />
-                    </form>     
-                </div>
-                <div>
-                    <select id="filter"></select>
-                </div>
-            </div>
-            <div id="chart"></div>
-        </div>
+        <%- include('partials/header.html'); %>
 
-        <!-- <script src="main.js"></script> -->
+        <main role="main" class="main-page">
+            <section class="jumbotron text-center">
+                <div class="container">
+                    <h1 class="jumbotron-heading">Album example</h1>
+                    <p class="lead text-muted">
+                        Something short and leading about the collection below—its contents, the creator, etc.
+                        Make it short and sweet, but not too short so folks don't simply skip over it entirely.
+                    </p>
+                    <p>
+                        <form
+                            action='/upload' 
+                            method='post' 
+                            enctype="multipart/form-data">
+                                <div id="drawButton" style="display: none;">
+                                    <input type="submit" value="Draw!" class="btn btn-outline-primary btn-lg"/>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input type="file" name="dbFile" style="display: none;" accept=".db">
+                                        <a class="btn btn-outline-secondary my-2">Upload file</a>
+                                    </label>
+                                </div>
+                                <div id="fileName" style="display: none;"></div>
+                        </form>
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <%- include('partials/footer.html'); %>
+
         <script>
-            const data = JSON.parse('<%- data %>');
-            console.log(data);
-        </script>
-
-        <script> var chart; </script>
-        <script type="module">
-            import Chart from '/js/chart.js';
-
-            // TODO into js vanilla
             $(document).ready(function() {
+                $('input[name="dbFile"]').on('change', function() {
+                    const filename = this.value.replace(/.*[\/\\]/, ''); 
 
-
-                $("#draw").click(function() {
-                    $.get("/go", function(data) {
-                        console.log(data);
-                        chart = new Chart(data);
-                    });
-                });
-
+                    $('#fileName').html(filename).show();
+                    $('#drawButton').show();
+                })
             });
         </script>
-
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/js/datepicker-full.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@9.1.1/dist/js/autoComplete.min.js"></script>
-        <script src="multiselect-dropdown.min.js"></script>
     </body>
 </html>

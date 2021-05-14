@@ -8,6 +8,7 @@ export default class DatepPicker {
 
         this.setup();
         this.bind();
+        this.show();
     }
 
 
@@ -33,5 +34,10 @@ export default class DatepPicker {
             const date = event.detail.date;
             chart.timeline.on_selection(date);
         })
+    }
+
+
+    show() {
+        this.html.style.display = 'block';
     }
 }

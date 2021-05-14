@@ -4,7 +4,7 @@ import Utils from '../../utils/utils.js';
 const BUTTONS = {
     DISPLAY: 'display show',
     SELECT: 'select',
-    COLLAPSE: 'collapse up'
+    COLLAPSE: 'collaps up'
 }
 
 export default class Category {
@@ -88,7 +88,7 @@ export default class Category {
                 button.setAttribute('title', 'Show/hide resources');
             } else if (button.matches('.select')) {
                 button.setAttribute('title', 'Select/unselect all resources');
-            } else if (button.matches('.collapse')){
+            } else if (button.matches('.collaps')){
                 button.setAttribute('title', 'Collapse/expand category');
             }
         }
@@ -104,7 +104,7 @@ export default class Category {
 
     bind_collapse() {
         const category = this;
-        const button = this.html.querySelector('.collapse');
+        const button = this.html.querySelector('.collaps');
 
         button.addEventListener('click', function() {
             category.toggle_collapse();
@@ -163,7 +163,7 @@ export default class Category {
         const buttons = this.html.querySelector('.category-btns');
 
         for (let button of buttons.children) {
-            if (button.matches('.collapse')) {
+            if (button.matches('.collaps')) {
                 button.classList.toggle('up');
                 button.classList.toggle('down');
             } else {

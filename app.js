@@ -2,10 +2,14 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const fileUpload = require('express-fileupload');
-const DBConnector = require('./database/db.js')
+const DBConnector = require('./database/db.js');
 
 const port = 3003;
 const app = express();
+
+// app.engine('ejs', require('ejs-locals'));
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
 
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, 'public')));
@@ -14,11 +18,11 @@ app.use(fileUpload());
 
 
 let DB_FILE = null;
-const UPLOAD_PATH = __dirname + '/upload/';
+const UPLOAD_PATH = path.join(__dirname, 'upload');
 
 app.get('/', (req, res) => {
     clear_upload();
-    res.render('in.html');
+    res.render('index.html');
 });
 
 
@@ -28,7 +32,7 @@ app.post('/upload', (req, res) => {
     if (!fs.existsSync(UPLOAD_PATH)){
         fs.mkdirSync(UPLOAD_PATH);
     }
-    const filePath = UPLOAD_PATH + DB_FILE.name;
+    const filePath = path.join(UPLOAD_PATH, DB_FILE.name);
 
     DB_FILE.mv(filePath, function(err) {
         if (err) {
@@ -45,7 +49,7 @@ app.post('/upload', (req, res) => {
 
 app.get('/chart', (req, res) => {
     if (DB_FILE) {
-        const db = new DBConnector(UPLOAD_PATH + DB_FILE.name);
+        const db = new DBConnector(path.join(UPLOAD_PATH, DB_FILE.name));
 
         db.query().then((data) => {
             res.render('chart.html', { data: JSON.stringify(data) });
@@ -68,7 +72,7 @@ function clear_upload() {
     fs.readdir(UPLOAD_PATH, (err, files) => {
         if (files) {
             files.forEach(file => {
-                fs.unlink(UPLOAD_PATH + file, (error) => {
+                fs.unlink(path.join(UPLOAD_PATH, file), (error) => {
                     if (!error) {
                         console.log("Database file '" + file + "' was deleted from /upload directory.");
                     }

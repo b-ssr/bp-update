@@ -26,7 +26,7 @@ export default class TimelineControl {
             Utils.create_html('button', {
                 innerHTML: VIEW_MODE[mode],
                 name: VIEW_MODE[mode],
-                class: 'view-button',
+                class: 'view-button btn btn-light btn-sm',
                 parent: this.html
             });
         }

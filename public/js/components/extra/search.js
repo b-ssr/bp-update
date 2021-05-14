@@ -15,6 +15,7 @@ export default class Search {
 
         this.setup_element();
         this.setup_data();
+        this.show();
     }
 
 
@@ -108,5 +109,10 @@ export default class Search {
         setTimeout(function() {
             operation.html.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center'})
         }, 500)
+    }
+
+
+    show() {
+        this.html.style.display = 'block';
     }
 }
