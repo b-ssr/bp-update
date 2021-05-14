@@ -1,5 +1,3 @@
-// import autoComplete from "@tarekraafat/autocomplete.js";
-
 export default class Search {
 
     constructor(chart, target) {

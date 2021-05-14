@@ -17,22 +17,23 @@ export default class Popup {
         this.text = `
         <table>
             <tr>
-                <td><strong>Operation ID - </strong></td>
+                <td><strong>Operation ID</strong> - </td>
                 <td class="op"></td>
             </tr>
             <tr>
-                <td><strong>Start - </strong></td><td class="start"></td>
+                <td><strong>Start</strong> - </td>
+                <td class="start"></td>
             </tr>
             <tr>
-                <td><strong>End - </strong></td>
+                <td><strong>End</strong> - </td>
                 <td class="end"></td>
             </tr>
             <tr>
-                <td><strong>State - </strong></td>
+                <td><strong>State</strong> - </td>
                 <td class="op-state"></td>
             </tr>
             <tr>
-                <td><strong>Resource - </strong></td>
+                <td><strong>Resource</strong> - </td>
                 <td><div class="res"></div> (<div class="res-type"></div>)</td>
             </tr>
         </table>

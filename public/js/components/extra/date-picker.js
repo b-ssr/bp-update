@@ -1,5 +1,3 @@
-// import { Datepicker } from 'vanillajs-datepicker';
-
 export default class DatepPicker {
 
     constructor(chart, target) {
