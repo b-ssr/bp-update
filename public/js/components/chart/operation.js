@@ -16,6 +16,7 @@ export default class Operation {
         this.type = this.operation_data.type;
         this.time_start = new Date(this.operation_data.time_start);
         this.time_end = new Date(this.operation_data.time_end);
+        this.layer_number = this.operation_data.layer;
 
         this.order;
         this.html;
@@ -23,7 +24,7 @@ export default class Operation {
     }
 
 
-    prepare() {
+    prepare(index) {
         this.section = this.resource.category.ops_section;
 
         // 100px  /------- ? px ---------/operation/--------------------/
@@ -41,7 +42,8 @@ export default class Operation {
 
         this.x = (this.time_start - this.chart.chart_start) / this.chart.full_time
             * options.grid_width; //- options.grid_offset * 2;
-        this.y = options.row_height * this.resource.index + options.bar_padding / 2;
+        this.y = options.row_height * index + options.bar_padding / 2;
+        // this.y = options.row_height * this.resource.index + options.bar_padding / 2;
         this.width = (this.time_end - this.time_start) / this.chart.full_time
             * options.grid_width;
         this.height = options.bar_height;

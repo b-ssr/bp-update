@@ -4,6 +4,7 @@ import Category from './components/chart/category.js';
 import Resource from './components/chart/resource.js';
 import Grid from './components/chart/grid.js';
 import Operation from './components/chart/operation.js';
+import Layer from './components/chart/layer.js';
 import TimelineControl from './components/extra/timeline-control.js';
 import DatepPicker from './components/extra/date-picker.js';
 import Search from './components/extra/search.js';
@@ -27,6 +28,7 @@ class Chart {
         this.setup_categories(resources);
         this.setup_resources(resources);
         this.setup_operations(resources);
+        this.setup_resource_layers();
         this.setup_boundary_dates();
         this.setup_chart_dates();
     }
@@ -95,7 +97,7 @@ class Chart {
                     .find(r => r.id === resource.id).operations;
 
                 for (let operation_data of operations_data) {
-                    if (operation_data.type === 'full'){
+                    if (operation_data.type === 'full') {
                         continue;
                     }
                     const operation = new Operation(this, resource, operation_data);
@@ -121,6 +123,24 @@ class Chart {
             }
             operation.order = order++;
             id = operation.id;
+        }
+    }
+
+
+    setup_resource_layers() {
+        for (let resource of this.resources) {
+            const layers_numbers = Array.from(
+                new Set(resource.resource_data.operations
+                    .map(operation => operation.layer))
+                );
+
+            if (layers_numbers.length > 1) {
+                layers_numbers.sort();
+                for (let layer_number of layers_numbers) {
+                    const operations = resource.operations.filter(o => o.layer == layer_number);
+                    resource.layers.push(new Layer(this, resource, operations, layer_number));
+                }
+            }
         }
     }
 
@@ -291,6 +311,13 @@ class Chart {
             const resources = category.filter_hidden_resources();
             for (let resource of resources) {
                 resource.draw();
+
+                if (resource.layers.length) {
+                    resource.draw_layers_svg();
+                    for (let layer of resource.layers) {
+                        layer.draw();
+                    }
+                }
             }
         }
     }
@@ -313,15 +340,29 @@ class Chart {
         for (let category of this.categories) {
             const resources = category.filter_hidden_resources();
 
+            let index = 0;
             for (let resource of resources) {
                 let operations = resource.operations;
                 if (selected_types) {
                     operations = operations.filter(o => selected_types.includes(o.type));
                 }
-                for (let operation of operations) {
-                    operation.prepare();
-                    operation.draw();
+
+                if (resource.layers.length) {
+                    for (let layer of resource.layers) {
+                        index++;
+                        const ops = operations.filter(o => o.layer_number == layer.number);
+                        for (let op of ops) {
+                            op.prepare(index);
+                            op.draw();
+                        }
+                    }
+                } else {
+                    for (let op of operations) {
+                        op.prepare(index);
+                        op.draw();
+                    }
                 }
+                index++;
             }
         }
     }

@@ -33,6 +33,10 @@ export default class Grid {
         for (let category of this.chart.categories) {
             this.filtered_resources.push(...category.filter_hidden_resources());
         }
+
+        this.rows_count = this.chart.categories.length
+            + this.filtered_resources.length
+            + this.filtered_resources.map(r => r.layers.length).reduce((a, b) => a + b);
     }
 
 
@@ -53,11 +57,11 @@ export default class Grid {
             parent: this.html
         });
 
-        const cnt = this.filtered_resources.length + this.chart.categories.length;
+        // let cnt = this.filtered_resources.length + this.chart.categories.length;
 
         this.svg_bg = Utils.create_svg('svg', {
             width: this.width + this.offset * 2,
-            height: this.row_height * cnt,
+            height: this.row_height * this.rows_count,
             style: 'display: block',
             parent: bg_container
         });
@@ -67,9 +71,9 @@ export default class Grid {
     draw_rows() {
         const rows_layer = Utils.create_svg('g', { parent: this.svg_bg });
 
-        const cnt = this.filtered_resources.length + this.chart.categories.length;
+        // const cnt = this.filtered_resources.length + this.chart.categories.length;
         let y = 0;
-        for (let i = 0; i < cnt; i++) {
+        for (let i = 0; i < this.rows_count; i++) {
             Utils.create_svg('rect', {
                 x: 0,
                 y: y,
@@ -87,11 +91,11 @@ export default class Grid {
     draw_columns() {
         const columns_layer = Utils.create_svg('g', { parent: this.svg_bg });
 
-        const cnt = this.filtered_resources.length + this.chart.categories.length;
+        // const cnt = this.filtered_resources.length + this.chart.categories.length;
         let x1 = 0;
         let y1 = 0;
         let x2 = 0;
-        let y2 = this.row_height * cnt;
+        let y2 = this.row_height * this.rows_count;
 
         for (let i = 0; i < this.chart.chart_dates.length + 1; i++) {
             Utils.create_svg('line', {
@@ -125,8 +129,10 @@ export default class Grid {
 
 
     draw_section(category) {
-        const cnt = this.filtered_resources
-            .filter(r => r.category === category).length;
+        const resources = this.filtered_resources
+            .filter(r => r.category === category);
+        const cnt = resources.length
+            + resources.map(r => r.layers.length).reduce((a, b) => a + b);
 
         const width = this.width + this.offset * 2;
         const height = this.row_height;

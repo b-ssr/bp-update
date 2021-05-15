@@ -278,3 +278,9 @@
 .multiselect-container > li.starting {
     background-color: #f0ee95;
 }
+
+.layer {
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+}

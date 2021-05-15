@@ -1,0 +1,37 @@
+[
+    {
+        "name": "db-1.db",
+        "data":
+        {
+            "date_start": "2020-11-30",
+            "date_end": "2021-02-15",
+            "categories":
+            [
+                {
+                    "type": "machines",
+                    "details": {
+                        "res_number": 10,
+                        "ops_range": [10, 30],
+                        "layers": true
+                    }
+                },
+                {
+                    "type": "tools",
+                    "details": {
+                        "res_number": 10,
+                        "ops_range": [10, 50],
+                        "layers": false
+                    }
+                },
+                {
+                    "type": "personnel",
+                    "details": {
+                        "res_number": 15,
+                        "ops_range": [30, 50],
+                        "layers": true
+                    }
+                }
+            ]
+        }
+    }
+]

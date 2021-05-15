@@ -1,7 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
 
-// const DB_SOURCE = './db/gent-1.db';
-// const DB_SOURCE = './db/IDE-gf.db';
 
 class DBConnector {
 
@@ -24,6 +22,7 @@ class DBConnector {
                 ptw.TimeWindowType AS OperationType,
                 ptw.TimeWindowStart AS TimeStart,
                 ptw.TimeWindowEnd AS TimeEnd,
+                ptw.Layer AS Layer,
                 r.type AS ResourceType
             FROM Resources r INNER JOIN PlannedTimeWindow ptw
             ON r.sId = ptw.EquipmentId`;
@@ -60,7 +59,8 @@ class DBConnector {
                 id: row.OperationId,
                 type: this.get_operation_type(row.OperationType),
                 time_start: row.TimeStart,
-                time_end: row.TimeEnd
+                time_end: row.TimeEnd,
+                layer: row.Layer
             })
         }
         resources.push(resource);
