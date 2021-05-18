@@ -105,7 +105,6 @@ class Chart {
                     this.operations.push(operation);
                 }
 
-                resource.operations.sort((o1, o2) => o1.time_start - o2.time_start);
                 this.setup_operations_order(resource.operations);
             }
         }
@@ -113,16 +112,23 @@ class Chart {
 
 
     setup_operations_order(operations) {
-        // indicates order of phase operation within its parent full operation
-        // all phase operations have the same id
-        let id;
-        let order = 0;
-        for (let operation of operations) {
-            if (id != operation.id) {
-                order = 0;
+        const layers = Array.from(new Set(operations.map(o => o.layer_number)));
+
+        for (let layer of layers) {
+            const layer_operations = operations.filter(o => o.layer_number == layer);
+            layer_operations.sort((o1, o2) => o1.time_start - o2.time_start);
+
+            // indicates order of phase operation within its parent full operation
+            // all phase operations have the same id
+            let id;
+            let order = 0;
+            for (let op of layer_operations) {
+                if (id != op.id) {
+                    order = 0;
+                }
+                op.order = order++;
+                id = op.id;
             }
-            operation.order = order++;
-            id = operation.id;
         }
     }
 
