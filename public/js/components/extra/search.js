@@ -1,3 +1,6 @@
+import Operation from "../chart/operation.js";
+import Resource from "../chart/resource.js";
+
 export default class Search {
 
     constructor(chart, target) {
@@ -9,7 +12,7 @@ export default class Search {
 
 
     setup() {
-        this.selected_id;
+        this.selected_item;
 
         this.setup_element();
         this.setup_data();
@@ -40,49 +43,47 @@ export default class Search {
 
 
     setup_data() {
-        let source = [];
+        let src;
+        let sources = [];
 
         for (let category of this.chart.categories) {
             const resources = category.filter_hidden_resources();
             for (let resource of resources) {
-                source.push(resource.id)
+                src = {};
+                src.key = resource.id;
+                src.value = resource,
+                sources.push(src);
 
-                const op_ids = Array.from(new Set(resource.operations.map(o => o.id)))
-                for (let op_id of op_ids) {
-                    source.push(op_id + ' (' + resource.category.type + ')');
+                for (let operation of resource.operations) {
+                    src = {};
+                    src.key = operation.id;
+                    src.value = operation,
+                    sources.push(src);
                 }
             }
         }
-        this.element.data.src = source;
+        this.element.data.src = sources;
+        this.element.data.key = ['key'];
     }
 
 
     make_selection(selection) {
-        this.html.value = selection;
-
-        const parts = selection.split(' ');
-        let id = parts[0];
-        let res_type = parts[1];
-        // res_type is resource type, but is defined for operation here!
-        // (multiple operations can have the same id, but different resource type)
-        if (res_type) {
-            res_type = res_type.substring(1, res_type.length - 1);
-        }
+        this.html.value = selection.key;
+        this.selected_item = selection.value;
 
         this.chart.reset_resources();
         this.chart.reset_operations();
-        this.selected_id = id;
 
-        if (res_type) {
-            this.make_selection_op(id, res_type);
-        } else {
-            this.make_selection_res(id);
+        if (this.selected_item instanceof Operation) {
+            this.make_selection_op();
+        } else if (this.selected_item instanceof Resource){
+            this.make_selection_res();
         }
     }
 
 
-    make_selection_res(id) {
-        const resource = this.chart.find_resource(id);
+    make_selection_res() {
+        const resource = this.selected_item;
 
         if (resource.category.is_collapsed) {
             resource.category.toggle_collapse();
@@ -93,8 +94,8 @@ export default class Search {
     }
 
 
-    make_selection_op(id, res_type) {
-        const operation = this.chart.find_operation(id, res_type, null);
+    make_selection_op() {
+        const operation = this.selected_item;
 
         if (operation.resource.category.is_collapsed) {
             operation.resource.category.toggle_collapse();
