@@ -13,6 +13,7 @@ export default class Popup {
     set_defaults() {
         this.html;
         this.layer = this.chart.popup_layer;
+        this.padding = 4;
 
         this.text = `
         <table>
@@ -97,10 +98,10 @@ export default class Popup {
         const width = this.html.scrollWidth;
         const height = this.html.scrollHeight;
 
-        svg.width.baseVal.value = width;
-        svg.height.baseVal.value = height;
-        foreign.width.baseVal.value = width;
-        foreign.height.baseVal.value = height;
+        svg.width.baseVal.value = width + this.padding;
+        svg.height.baseVal.value = height + this.padding;
+        foreign.width.baseVal.value = width + this.padding;
+        foreign.height.baseVal.value = height + this.padding;
 
         svg.style['margin-top'] = this.margin_top - height - 10 + 'px';
         svg.style['margin-left'] = this.margin_left - width / 5 + 'px';

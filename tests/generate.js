@@ -97,7 +97,7 @@ function make_resource(category, index) {
 
     resource.layers = false;
     if (category.details.layers) {
-        // 20% of machines have multiple layers
+        // 30% of resources of this category have multiple layers
         if (Math.random() < 0.3) {
             resource.layers = true;
         }
