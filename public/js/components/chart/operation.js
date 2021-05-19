@@ -34,30 +34,16 @@ export default class Operation {
 
         const options = this.chart.options;
 
-        // ((o.time_start - chart.chart_start) / (chart.chart_end - chart.chart_start)) * chart.options.grid_width
-        // (o.time_start - chart.chart_start) / chart.full_time * chart.options.grid_width
-        // (o.time_start - d) / (dd - d) * chart.options.grid_width
-
-        // TODO
+        // TODO calculation is not always correct
 
         this.x = (this.time_start - this.chart.chart_start) / this.chart.full_time
-            * options.grid_width; //- options.grid_offset * 2;
+            * options.grid_width; // - options.grid_offset * 2;
         this.y = options.row_height * index + options.bar_padding / 2;
-        // this.y = options.row_height * this.resource.index + options.bar_padding / 2;
         this.width = (this.time_end - this.time_start) / this.chart.full_time
             * options.grid_width;
         this.height = options.bar_height;
 
         this.corner_radius = this.chart.options.bar_corner_radius;
-
-        // s = chart.chart_start;
-        // e = chart.chart_end;
-        // w = chart.options.grid_width;
-        // f = chart.full_time;
-
-        // // 070000CA-AF01-53DA-68C0-0038B9C6279D
-        // o = chart.operations.find(o => o.id == '070000CA-AF01-53DA-68C0-0038B9C6279D')
-        // (o.time_start - s) / (e - s) * w
     }
 
 

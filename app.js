@@ -7,9 +7,6 @@ const DBConnector = require('./database/db.js');
 const port = 3003;
 const app = express();
 
-// app.engine('ejs', require('ejs-locals'));
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'ejs');
 
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, 'public')));
@@ -38,8 +35,8 @@ app.post('/upload', (req, res) => {
         if (err) {
             // TODO show error message
             console.log('UPLOAD ERROR!');
-            res.send('UPLOAD ERROR: ' + error.message);
-            // res.redirect('/');
+            // res.send('UPLOAD ERROR: ' + error.message);
+            res.redirect('/');
         } else {
             res.redirect('/chart');
         }
@@ -56,8 +53,8 @@ app.get('/chart', (req, res) => {
         }).catch((error) => {
             // TODO show error message
             console.log('DATABASE ERROR!');
-            res.send('DATABASE ERROR: ' + error.message);
-            // res.redirect('/');
+            // res.send('DATABASE ERROR: ' + error.message);
+            res.redirect('/');
         });
     } else {
         res.redirect('/');

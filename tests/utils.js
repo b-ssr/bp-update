@@ -34,6 +34,8 @@ module.exports = {
         }
     },
 
+    // iterating phase of operation is always present
+    // others are optional
     generate_op_type: function(index, phases_number) {
         switch (phases_number) {
             case 1:

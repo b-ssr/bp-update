@@ -1,9 +1,17 @@
+/**
+ * This script generates testing data in a form of SQLite database file,
+ * which is then used as an input for visualization.
+ * 
+ * Testing data need to be described in a config file of /configs folder.
+ */
+
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
 const path = require('path');
 const utils = require('./utils');
 
-const CONFIG_FILE = path.join(__dirname, 'configs', 'config2.json');
+const CONFIG_NAME = 'config.json';
+const CONFIG_FILE = path.join(__dirname, 'configs', CONFIG_NAME);
 const DB_PATH = path.join(__dirname, 'db');
 
 var db;
@@ -69,6 +77,7 @@ function insert_rows(data) {
             const resource = make_resource(category, i);
             r_stmt.run(resource.id, resource.type);
 
+            // if 'layers' is set, generate random number of them
             let layers;
             if (resource.layers) {
                 layers = utils.random_number(1, 5);

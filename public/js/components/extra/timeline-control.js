@@ -18,7 +18,7 @@ export default class TimelineControl {
 
 
     render() {
-        // clear previous draw button event listener
+        // clears previous draw button event listener
         const control = this.html.cloneNode(true);
         this.html.innerHTML = control.innerHTML;
 

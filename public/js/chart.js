@@ -1,3 +1,18 @@
+/**
+ * This is a starting point of an application
+ * for visualization of manufature schedules.
+ * 
+ * The whole process of a visualization is described in my bachelor's thesis.
+ * 
+ * If you need a detailed information about application internals
+ * please read this thesis first.
+ * 
+ * This project in inspired by Frappe Gantt application.
+ * https://github.com/frappe/gantt
+ * 
+ * Artsiom Luhin. May 2021.
+ */
+
 import Utils from './utils/utils.js';
 import Timeline from './components/chart/timeline.js';
 import Category from './components/chart/category.js';
@@ -14,11 +29,9 @@ import { VIEW_MODE } from './utils/constants.js';
 class Chart {
 
     constructor(resources) {
-        console.time('FFF')
         this.setup(resources);
         this.render();
         this.bind();
-        console.timeEnd('FFF')
         this.make_features();
     }
 
@@ -349,10 +362,12 @@ class Chart {
             let index = 0;
             for (let resource of resources) {
                 let operations = resource.operations;
+                // keep operations of selected types only
                 if (selected_types) {
                     operations = operations.filter(o => selected_types.includes(o.type));
                 }
 
+                // if resource has layers, draw operations separately for each resource
                 if (resource.layers.length) {
                     for (let layer of resource.layers) {
                         index++;

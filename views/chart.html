@@ -22,15 +22,12 @@
             </section>
         </main>
 
-        <!-- TODO delete -->
-        <script> var chart; </script>
-
         <script type="module">
             import Chart from '/js/chart.js';
 
             $(document).ready(function() {
                 const data = JSON.parse('<%- data %>');
-                chart = new Chart(data);
+                const chart = new Chart(data);
             });
         </script>
 

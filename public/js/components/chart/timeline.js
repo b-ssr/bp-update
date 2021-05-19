@@ -10,7 +10,7 @@ export default class Timeline {
         this.set_defaults();
         this.prepare();
         this.draw();
-        this.make_padding();
+        // this.make_padding();
     }
 
 
@@ -80,16 +80,16 @@ export default class Timeline {
         const first = nodes[0];
         const last = nodes[nodes.length - 1];
 
-        // TODO
-        // Utils.create_html('div', {
-        //     style: 'width: ' + this.chart.options.grid_offset + 'px',
-        //     parent: first
-        // }, true);
+        TODO
+        Utils.create_html('div', {
+            style: 'width: ' + this.chart.options.grid_offset + 'px',
+            parent: first
+        }, true);
 
-        // Utils.create_html('div', {
-        //     style: 'width: ' + this.chart.options.grid_offset + 'px',
-        //     parent: last
-        // });
+        Utils.create_html('div', {
+            style: 'width: ' + this.chart.options.grid_offset + 'px',
+            parent: last
+        });
     }
 
 
@@ -162,9 +162,7 @@ export default class Timeline {
     }
 
 
-    /**
-     * Finds element, where target date is located.
-     */
+    // Finds element, where target date is located.
     find_matched_element(date, elements) {
         //  target:         30.09
         //  date blocks:    01.09 (sept), 01.10 (oct)   --> found 01.09 (sept)

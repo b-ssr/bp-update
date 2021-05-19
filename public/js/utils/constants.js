@@ -1,3 +1,7 @@
+/**
+ * Some contants.
+ **/ 
+
 export const VIEW_MODE = {
     HOUR: 'hour',
     QUARTER_DAY: 'q-day',

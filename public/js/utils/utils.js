@@ -1,3 +1,9 @@
+/**
+ * Class contains different util methods.
+ * 
+ * Methods inc_date(), create_svg() and format() are partially taken from Frappe Gantt project.
+ **/ 
+
 import { VIEW_MODE, MONTH_NAMES } from './constants.js'
 
 class Utils {
@@ -67,7 +73,7 @@ class Utils {
         return elem;
     }
 
-    // merge with create svg
+
     static create_html(tag, attrs, prepend) {
         const elem = document.createElement(tag);
         for (let attr in attrs) {

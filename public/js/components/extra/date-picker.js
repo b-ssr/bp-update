@@ -28,7 +28,6 @@ export default class DatepPicker {
     bind_select() {
         const chart = this.chart;
         this.html.addEventListener('changeDate', function(event) {
-            // console.log(event.detail);
             const date = event.detail.date;
             chart.timeline.on_selection(date);
         })

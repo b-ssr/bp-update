@@ -1,3 +1,7 @@
+/**
+ *  Script removes generated testing files.
+ */
+
 const fs = require('fs');
 const path = require('path');
 

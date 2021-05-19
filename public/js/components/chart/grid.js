@@ -1,5 +1,4 @@
 import Utils from '../../utils/utils.js';
-import Operation from './operation.js';
 import Popup from './popup.js';
 
 export default class Grid {
@@ -57,7 +56,6 @@ export default class Grid {
             parent: this.html
         });
 
-        // let cnt = this.filtered_resources.length + this.chart.categories.length;
 
         this.svg_bg = Utils.create_svg('svg', {
             width: this.width + this.offset * 2,
@@ -71,7 +69,6 @@ export default class Grid {
     draw_rows() {
         const rows_layer = Utils.create_svg('g', { parent: this.svg_bg });
 
-        // const cnt = this.filtered_resources.length + this.chart.categories.length;
         let y = 0;
         for (let i = 0; i < this.rows_count; i++) {
             Utils.create_svg('rect', {
@@ -91,7 +88,6 @@ export default class Grid {
     draw_columns() {
         const columns_layer = Utils.create_svg('g', { parent: this.svg_bg });
 
-        // const cnt = this.filtered_resources.length + this.chart.categories.length;
         let x1 = 0;
         let y1 = 0;
         let x2 = 0;

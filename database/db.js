@@ -26,8 +26,6 @@ class DBConnector {
                 r.type AS ResourceType
             FROM Resources r INNER JOIN PlannedTimeWindow ptw
             ON r.sId = ptw.EquipmentId`;
-            // ORDER BY resource id ???
-            // how can i know that resources are ordered? see format method
 
         return new Promise((resolve, reject) => {
             this.db.all(query, (err, rows) => {
