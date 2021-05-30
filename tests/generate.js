@@ -35,6 +35,10 @@ function create_db(database_data) {
     const name = database_data.name;
     const data = database_data.data;
 
+    if (!fs.existsSync(DB_PATH)){
+        fs.mkdirSync(DB_PATH);
+    }
+
     const file_path = path.join(DB_PATH, name);
     db = new sqlite3.Database(file_path, function() {
         create_table(data);

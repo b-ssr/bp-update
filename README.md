@@ -9,7 +9,7 @@ The application is running on 'localhost:3003/'.
 npm run generate-tests  - generates testing data (in a form of SQLite database file).
 npm run clean-tests     - removes all generated files.
 
-j
+
 Project structure:
 -----------------
 /database       - Script for reading data from a database file.
