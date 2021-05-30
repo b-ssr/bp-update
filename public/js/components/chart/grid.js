@@ -15,14 +15,22 @@ export default class Grid {
         this.svg_sections = [];
         this.html = this.chart.content_layers.grid;
 
-        // TODO
-        this.offset = 0;
-        // this.offset = this.chart.options.grid_offset;
+        // start            6:00               12:00              18:00            end
+        // ------------------|------------------|------------------|------------------
+        // 2 * grid_padding                             60px
+        //
+        // column_width = 60px
+        // grid_padding = column_width / 2 = 30px
+        //
+        // grid_width = chart_dates.length * column_width + 2 * grid_padding
+        //            = 3 * 60px + 2 * 30px = 240px
 
+        this.padding = this.chart.options.grid_padding;
         this.row_height = this.chart.options.row_height;
         this.column_width = this.chart.options.column_width;
 
-        this.width = this.chart.chart_dates.length * this.column_width;
+        this.width = this.chart.chart_dates.length * this.column_width
+            + 2 * this.padding;
         this.chart.options.grid_width = this.width;
     }
 
@@ -58,7 +66,7 @@ export default class Grid {
 
 
         this.svg_bg = Utils.create_svg('svg', {
-            width: this.width + this.offset * 2,
+            width: this.width,
             height: this.row_height * this.rows_count,
             style: 'display: block',
             parent: bg_container
@@ -74,7 +82,7 @@ export default class Grid {
             Utils.create_svg('rect', {
                 x: 0,
                 y: y,
-                width: this.width + this.offset * 2,
+                width: this.width,
                 height: this.row_height,
                 class: 'grid-row',
                 parent: rows_layer,
@@ -109,7 +117,7 @@ export default class Grid {
 
 
     draw_break() {
-        const width = this.width + this.offset * 2;
+        const width = this.width;
         const height = this.row_height;
 
         Utils.create_html('div', {
@@ -130,7 +138,7 @@ export default class Grid {
         const cnt = resources.length
             + resources.map(r => r.layers.length).reduce((a, b) => a + b);
 
-        const width = this.width + this.offset * 2;
+        const width = this.width;
         const height = this.row_height;
 
         const svg_container = Utils.create_html('div', {

@@ -10,7 +10,7 @@ export default class Timeline {
         this.set_defaults();
         this.prepare();
         this.draw();
-        // this.make_padding();
+        this.make_padding();
     }
 
 
@@ -80,14 +80,13 @@ export default class Timeline {
         const first = nodes[0];
         const last = nodes[nodes.length - 1];
 
-        TODO
         Utils.create_html('div', {
-            style: 'width: ' + this.chart.options.grid_offset + 'px',
+            style: 'width: ' + this.chart.options.grid_padding + 'px',
             parent: first
         }, true);
 
         Utils.create_html('div', {
-            style: 'width: ' + this.chart.options.grid_offset + 'px',
+            style: 'width: ' + this.chart.options.grid_padding + 'px',
             parent: last
         });
     }

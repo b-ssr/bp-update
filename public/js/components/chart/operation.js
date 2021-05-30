@@ -34,13 +34,23 @@ export default class Operation {
 
         const options = this.chart.options;
 
-        // TODO calculation is not always correct
+        // start            6:00               12:00              18:00            end
+        // ------------------|------------------|------------------|------------------
+        // 2 * grid_padding                             60px
+
+        // grid_width = chart_dates.length * column_width + 2 * grid_padding
+        //            = 3 * 60px + 2 * 30px = 240px
+        //
+        // full_time = 18:00 - 6:00 = 6 hours (in milliseconds)
+        // full_time_width = grid_width - 4 * grid_padding = 120px
+
+        const full_time_width = options.grid_width - 4 * options.grid_padding;
 
         this.x = (this.time_start - this.chart.chart_start) / this.chart.full_time
-            * options.grid_width; // - options.grid_offset * 2;
+            * full_time_width + 2 * options.grid_padding;
         this.y = options.row_height * index + options.bar_padding / 2;
         this.width = (this.time_end - this.time_start) / this.chart.full_time
-            * options.grid_width;
+            * full_time_width;
         this.height = options.bar_height;
 
         this.corner_radius = this.chart.options.bar_corner_radius;

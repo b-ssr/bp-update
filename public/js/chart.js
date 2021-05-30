@@ -67,7 +67,7 @@ class Chart {
 
         this.options.row_height =
             this.options.bar_height + this.options.bar_padding;
-        this.options.grid_offset = this.options.column_width / 2;
+        this.options.grid_padding = this.options.column_width / 2;
     }
 
 
@@ -242,9 +242,7 @@ class Chart {
         this.chart_start = this.chart_dates[0];
         this.chart_end = this.chart_dates[this.chart_dates.length - 1];
 
-        // full time = end - start + padding
         this.full_time = this.chart_end - this.chart_start;
-            // + Utils.get_view_step_ms(this.options.view_mode);
     }
 
 
