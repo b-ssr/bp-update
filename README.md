@@ -1,17 +1,18 @@
-Bachelor's Thesis Project.
-Visualiztion of Manufacture Schedules.
+### Bachelor's Thesis Project.
+## Visualiztion of Manufacture Schedules.
 
-npm init    - initializes the project.
-npm start   - starts the application.
+### Run application:
+**npm install** - installs all the dependences.  
+**npm start** - starts the application.
 
-The application is running on 'localhost:3003/'.
+The application is running on ```localhost:3003```.
 
-npm run generate-tests  - generates testing data (in a form of SQLite database file).
-npm run clean-tests     - removes all generated files.
+**npm run generate-tests** - generates testing data (in a form of SQLite database file).  
+**npm run clean-tests** - removes all generated files.
 
 
-Project structure:
------------------
+### Project structure:
+```
 /database       - Script for reading data from a database file.
 /node_module    - NPM modules.
 /public         - Main part of the project (JS modularized app that makes schedule visualization).
@@ -23,9 +24,9 @@ Project structure:
 /views          - Basic views of the application.
 app.js          - Main controller - starting point of the whole project.
 package.json    - NPM module dependencies.
+```
 
-
-For DatePicker, Search and Filter application components the following external libraries are used:
-Vanilla JS Datepicker   - https://www.npmjs.com/package/vanillajs-datepicker
-autoComplete.js         - https://www.npmjs.com/package/@tarekraafat/autocomplete.js
-Bootstrap Multiselect   - https://www.npmjs.com/package/bootstrap-multiselect
+For **DatePicker**, **Search** and **Filter** application components the following external libraries were used:  
+[Vanilla JS Datepicker](https://www.npmjs.com/package/vanillajs-datepicker)  
+[autoComplete.js](https://www.npmjs.com/package/@tarekraafat/autocomplete.js)  
+[Bootstrap Multiselect](https://www.npmjs.com/package/bootstrap-multiselect)
