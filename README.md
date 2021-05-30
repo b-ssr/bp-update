@@ -1,5 +1,5 @@
 ### Bachelor's Thesis Project.
-## Visualiztion of Manufacture Schedules.
+## Visualization of Manufacture Schedules.
 
 ### Run application:
 **npm install** - installs all the dependences.  
