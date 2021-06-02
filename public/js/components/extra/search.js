@@ -46,6 +46,11 @@ export default class Search {
         let src;
         let sources = [];
 
+        let selected_types;
+        if (this.chart.filter) {
+            selected_types = this.chart.filter.get_selected_types();
+        }
+
         for (let category of this.chart.categories) {
             const resources = category.filter_hidden_resources();
             for (let resource of resources) {
@@ -54,7 +59,13 @@ export default class Search {
                 src.value = resource,
                 sources.push(src);
 
-                for (let operation of resource.operations) {
+                let operations;
+                if (selected_types) {
+                    operations = resource.operations.filter(o => selected_types.includes(o.type));
+                } else {
+                    operations = resource.operations;
+                }
+                for (let operation of operations) {
                     src = {};
                     src.key = operation.id;
                     src.value = operation,

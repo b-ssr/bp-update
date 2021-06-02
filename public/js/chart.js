@@ -253,6 +253,15 @@ class Chart {
         this.render_panel();
         this.render_grid();
         this.render_operations();
+
+        // on every render all elements are displayed again.
+        // hide category element, if it was hidden before this render.
+        for (let category of this.categories) {
+            if (category.is_collapsed) {
+                category.is_collapsed = false;
+                category.toggle_collapse();
+            }
+        }
     }
 
 
